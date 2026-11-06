@@ -10,7 +10,7 @@
 <meta property="og:title" content="Vigil Studio">
 <meta property="og:description" content="Vigil: استوديو إنتاج وتصميم وتراخيص وذكاء اصطناعي.">
 <meta property="og:url" content="https://alarifijabdullah-byte.github.io/vigil-studio/">
-<meta property="og:image" content="https://alarifijabdullah-byte.github.io/vigil-studio/assets/vigil-og.png">
+<meta property="og:image" content="https://alarifijabdullah-byte.github.io/vigil-studio/assets/vigil-og-desert.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -219,6 +219,8 @@ details p { padding: 0 22px 20px; color: var(--soft); font-size: 15px }
 .wafab { position: fixed; z-index: 60; right: max(26px, env(safe-area-inset-right, 0px)); bottom: calc(22px + env(safe-area-inset-bottom, 0px)); display: inline-flex; align-items: center; gap: 8px; padding: 12px 17px; border-radius: 999px; background: #1fa855; color: #fff; text-decoration: none; font: 500 14px/1 var(--sans); box-shadow: 0 12px 34px -10px rgba(31, 168, 85, .7); transition: transform .2s, opacity .3s }
 .wafab svg { width: 18px; height: 18px }
 body:not(.past) .wafab { opacity: 0; pointer-events: none }
+/* ?og=1 renders a clean frame for the link-preview image */
+.og .loader, .og .hud, .og .grain, .og .wafab { display: none !important } .og .panel > * { opacity: 1; transform: none; filter: none; transition: none }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important } .panel > * { opacity: 1; transform: none; filter: none } .grain { display: none } }
 </style>
 </head>
@@ -350,6 +352,7 @@ body:not(.past) .wafab { opacity: 0; pointer-events: none }
 <script>
 (() => {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (/[?&]og=1/.test(location.search)) document.documentElement.classList.add('og');
   /* Vigil's WhatsApp number in international form without + (e.g. 9665XXXXXXXX). Leave empty until the real number is ready. */
   const WA = '966501444443';
   const waLink = (text) => WA ? 'https://wa.me/' + WA + '?text=' + encodeURIComponent(text) : '';

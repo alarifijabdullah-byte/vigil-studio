@@ -10,7 +10,7 @@
 <meta property="og:title" content="Vigil Studio">
 <meta property="og:description" content="Vigil: a production, design, licensing and AI studio.">
 <meta property="og:url" content="https://alarifijabdullah-byte.github.io/vigil-studio/en.html">
-<meta property="og:image" content="https://alarifijabdullah-byte.github.io/vigil-studio/assets/vigil-og.png">
+<meta property="og:image" content="https://alarifijabdullah-byte.github.io/vigil-studio/assets/vigil-og-desert-en.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
@@ -223,6 +223,8 @@ body:not(.past) .wafab { opacity: 0; pointer-events: none }
 [dir="ltr"] .hud.bl { left: auto; right: max(26px, env(safe-area-inset-right, 0px)) } [dir="ltr"] .chap { justify-items: end }
 [dir="ltr"] .hud.br { right: auto; left: 50%; transform: translateX(-50%) }
 [dir="ltr"] .wafab { right: auto; left: max(26px, env(safe-area-inset-left, 0px)) }
+/* ?og=1 renders a clean frame for the link-preview image */
+.og .loader, .og .hud, .og .grain, .og .wafab { display: none !important } .og .panel > * { opacity: 1; transform: none; filter: none; transition: none }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important } .panel > * { opacity: 1; transform: none; filter: none } .grain { display: none } }
 </style>
 </head>
@@ -354,6 +356,7 @@ body:not(.past) .wafab { opacity: 0; pointer-events: none }
 <script>
 (() => {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (/[?&]og=1/.test(location.search)) document.documentElement.classList.add('og');
   /* Vigil's WhatsApp number in international form without + (e.g. 9665XXXXXXXX). Leave empty until the real number is ready. */
   const WA = '966501444443';
   const waLink = (text) => WA ? 'https://wa.me/' + WA + '?text=' + encodeURIComponent(text) : '';
