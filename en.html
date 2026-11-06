@@ -4,6 +4,17 @@
 <meta charset="utf-8">
 <title>Vigil Studio</title>
 <meta name="description" content="Vigil: a production, design, licensing and AI studio.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Vigil Studio">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Vigil Studio">
+<meta property="og:description" content="Vigil: a production, design, licensing and AI studio.">
+<meta property="og:url" content="https://alarifijabdullah-byte.github.io/vigil-studio/en.html">
+<meta property="og:image" content="https://alarifijabdullah-byte.github.io/vigil-studio/assets/vigil-og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0e0620">
 <link rel="icon" href="assets/vigil-mark.svg" type="image/svg+xml">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -603,6 +614,7 @@ section { padding-block: 110px 0 }
     words.forEach(w => { const t = cur ? cur + ' ' + w : w; if (m.measureText(t).width > cw - 4 && cur) { lines.push(cur); cur = w; } else cur = t; }); if (cur) lines.push(cur);
     const lh = Math.round(fs * (gothic ? 1.05 : 1.75)), width = Math.min(cw, Math.ceil(Math.max(...lines.map(l => m.measureText(l).width))) + 4), height = lh * lines.length + 4;
     let cv = el.querySelector('canvas'); if (!cv) { cv = document.createElement('canvas'); cv.setAttribute('aria-hidden', 'true'); el.append(cv); }
+    if (width < 1 || height < 1) return;
     cv.width = width; cv.height = height; const g = cv.getContext('2d'); g.font = font; g.textBaseline = 'middle'; g.fillStyle = '#fff';
     const rtl = !gothic && document.documentElement.dir === 'rtl'; g.direction = rtl ? 'rtl' : 'ltr'; g.textAlign = gothic ? 'center' : (rtl ? 'right' : 'left');
     lines.forEach((l, i) => g.fillText(l, gothic ? width / 2 : (rtl ? width - 2 : 2), lh * i + lh / 2 + 1));
