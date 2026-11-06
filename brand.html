@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Vigil Brand Guide</title>
+<meta name="description" content="دليل هوية Vigil: الشعار، الألوان، الخطوط، الأيقونات، والنبرة.">
+<link rel="icon" href="assets/vigil-mark.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@500;700;900&family=Press+Start+2P&family=VT323&family=Grenze+Gotisch:wght@700&display=swap">
+<style>
+/* Vigil brand guide: same night-synthwave world as the website, laid out as a reference sheet. */
+:root {
+  --night: #0e0620; --deep: #160a30; --plum: #24104a; --line: #3b1f6e;
+  --ink: #f6e9ff; --soft: #c9b5ee; --dim: #8f78bd;
+  --pink: #ff3ea5; --cyan: #2de2e6; --sun: #ffd23f; --violet: #7b2ff7; --orange: #ff8a3d;
+  --kufi: "Noto Kufi Arabic", "Segoe UI", Tahoma, sans-serif; --px: "Press Start 2P", monospace; --vt: "VT323", monospace; --mark: "Grenze Gotisch", Georgia, serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box }
+body { margin: 0; background: radial-gradient(60% 40% at 80% 0%, rgba(123,47,247,.35), transparent 70%), radial-gradient(50% 40% at 0% 100%, rgba(255,62,165,.18), transparent 70%), var(--night); background-attachment: fixed; color: var(--ink); font: 500 16px/1.9 var(--kufi) }
+body::after { content: ""; position: fixed; inset: 0; pointer-events: none; background: repeating-linear-gradient(0deg, rgba(0,0,0,.14) 0 1px, transparent 1px 3px) }
+a { color: var(--cyan) }
+.g { max-width: 1100px; margin-inline: auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)) }
+header { padding-block: 26px; border-bottom: 4px solid var(--line); background: rgba(14,6,32,.8) }
+header .g { display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap }
+.wm { display: inline-flex; align-items: center; gap: 10px; direction: ltr; font: 700 30px/1 var(--mark); text-decoration: none; color: var(--ink); text-shadow: 2px 2px 0 var(--pink) }
+.wm canvas { width: 34px; height: 34px; image-rendering: pixelated }
+header nav { display: flex; gap: 14px; font-weight: 700; font-size: 14px }
+header nav a { text-decoration: none; color: var(--ink) }
+header nav a:hover { color: var(--cyan) }
+h1 { font: 900 clamp(30px, 1.4rem + 3vw, 54px)/1.3 var(--kufi); margin: 60px 0 10px; background: linear-gradient(180deg, var(--sun), var(--orange) 40%, var(--pink) 75%, var(--violet)); -webkit-background-clip: text; background-clip: text; color: transparent }
+.lead { color: var(--soft); max-width: 44em; margin: 0 }
+section { padding-block: 70px 0 }
+h2 { font: 900 26px/1.4 var(--kufi); margin: 0 0 6px; display: flex; gap: 14px; align-items: baseline }
+h2 small { font: 400 10px/1 var(--px); color: var(--sun); direction: ltr }
+.sub { color: var(--soft); margin: 0 0 22px; max-width: 46em }
+.box { background: var(--deep); border: 4px solid var(--line); box-shadow: 6px 6px 0 #05020c; padding: 22px }
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px }
+.grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px }
+.grid4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px }
+@media (max-width: 860px) { .grid2, .grid3 { grid-template-columns: 1fr } .grid4 { grid-template-columns: repeat(2, minmax(0, 1fr)) } }
+.logo-stage { min-height: 260px; display: grid; place-items: center; background: radial-gradient(70% 70% at 50% 45%, #2b1052, var(--night)) }
+.logo-stage.light { background: #f6e9ff }
+.logo-stage img { max-width: 100%; max-height: 220px }
+.logo-stage canvas { width: 168px; height: 168px; image-rendering: pixelated }
+.cap { font: 600 13px/1.7 var(--kufi); color: var(--soft); margin-top: 12px }
+.cap b { color: var(--ink) }
+.dl { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px }
+.dl a { font: 400 18px/1 var(--vt); text-decoration: none; padding: 6px 10px 4px; border: 3px solid var(--line); color: var(--cyan) }
+.dl a:hover { border-color: var(--cyan) }
+.sw { padding: 0; overflow: hidden }
+.sw i { display: block; height: 110px; border-bottom: 4px solid var(--line) }
+.sw div { padding: 12px 14px 14px; font-size: 14px }
+.sw b { display: block; font: 800 15px/1.5 var(--kufi) }
+.sw code { font: 400 19px/1.2 var(--vt); color: var(--soft); direction: ltr; display: inline-block }
+.grad { height: 70px; border: 4px solid var(--line); background: linear-gradient(90deg, var(--sun), var(--orange), var(--pink), var(--violet)); margin-top: 20px }
+.type-row { display: grid; grid-template-columns: 160px minmax(0, 1fr); gap: 18px; align-items: center; padding-block: 18px; border-bottom: 3px dotted var(--line) }
+.type-row:last-child { border-bottom: 0 }
+.type-row small { font: 600 13px/1.6 var(--kufi); color: var(--dim) }
+.type-row small b { display: block; color: var(--ink); font-size: 14px }
+@media (max-width: 640px) { .type-row { grid-template-columns: 1fr } }
+.icons { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 12px }
+.icon { display: grid; justify-items: center; gap: 8px; padding: 14px 8px 10px; background: var(--night); border: 3px solid var(--line); font: 700 12px/1.5 var(--kufi); text-align: center }
+.icon canvas { width: 48px; height: 48px; image-rendering: pixelated }
+ul.rules { margin: 0; padding-inline-start: 20px }
+ul.rules li { margin-top: 6px }
+.do { border-color: var(--cyan) } .dont { border-color: var(--pink) }
+.do h3, .dont h3 { margin: 0 0 8px; font: 800 17px/1.5 var(--kufi) }
+.do h3 { color: var(--cyan) } .dont h3 { color: var(--pink) }
+.voice td, .voice th { text-align: start; padding: 10px 12px; border-bottom: 2px solid var(--line); vertical-align: top; font-size: 15px }
+.voice { width: 100%; border-collapse: collapse; min-width: 520px }
+.voice th { color: var(--sun); font-weight: 800 }
+.scroll { overflow-x: auto }
+.btn { display: inline-flex; font: 800 15px/1 var(--kufi); padding: 14px 18px 12px; background: var(--pink); color: var(--night); box-shadow: inset -4px -4px 0 rgba(0,0,0,.25), inset 4px 4px 0 rgba(255,255,255,.35), 5px 5px 0 #05020c; text-decoration: none }
+.btn.alt { background: var(--cyan) }
+.pixbox { border: 4px solid var(--pink); background: var(--deep); padding: 16px; box-shadow: 6px 6px 0 #05020c; clip-path: polygon(0 8px, 8px 8px, 8px 0, calc(100% - 8px) 0, calc(100% - 8px) 8px, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 8px calc(100% - 8px), 0 calc(100% - 8px)) }
+footer { margin-top: 90px; padding-block: 24px 40px; border-top: 4px solid var(--line); font: 400 20px/1.4 var(--vt); color: var(--dim); direction: ltr }
+footer .g { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px }
+</style>
+</head>
+<body>
+<header><div class="g">
+  <a class="wm" href="index.html"><canvas data-sprite="mark" width="12" height="12"></canvas>Vigil</a>
+  <nav><a href="#logo">الشعار</a><a href="#color">الألوان</a><a href="#type">الخطوط</a><a href="#icons">الأيقونات</a><a href="#ui">العناصر</a><a href="#voice">النبرة</a><a href="index.html">الموقع</a></nav>
+</div></header>
+
+<main class="g">
+  <h1>دليل هوية Vigil</h1>
+  <p class="lead">Vigil استوديو إنتاج وتصميم وتراخيص وذكاء اصطناعي. هويته تجمع بين ليل سينثويف، وبكسل ألعاب قديمة، وخط قوطي في الشعار. هذا الدليل يجمع كل شي تحتاجه عشان أي تصميم يطلع باسم Vigil يكون بنفس الشكل.</p>
+
+  <section id="logo">
+    <h2>الشعار <small>LOGO</small></h2>
+    <p class="sub">الرمز حرف V على شكل دائرة إلكترونية بأطراف موصولة، وتحته نقطة ذهبية. والاسم مكتوب بخط Grenze Gotisch القوطي.</p>
+    <div class="grid2">
+      <div><div class="box logo-stage"><img src="assets/vigil-logo-dark.png" alt="شعار Vigil الكامل"></div><p class="cap"><b>الشعار الكامل</b> للموقع والمطبوعات والبروفايل.</p><div class="dl"><a href="assets/vigil-logo-transparent.png" download>PNG شفاف</a><a href="assets/vigil-logo-dark.png" download>PNG داكن</a><a href="assets/vigil-logo-light.png" download>PNG فاتح</a></div></div>
+      <div><div class="box logo-stage"><canvas data-sprite="mark" width="12" height="12" aria-label="رمز Vigil بالبكسل"></canvas></div><p class="cap"><b>الرمز بالبكسل</b> للموقع والأيقونات الصغيرة والسوشال.</p><div class="dl"><a href="assets/vigil-mark.svg" download>SVG</a><a href="assets/vigil-mark-transparent.png" download>PNG شفاف</a><a href="assets/vigil-profile.png" download>صورة الحسابات</a></div></div>
+    </div>
+    <div class="grid3" style="margin-top:20px">
+      <div class="box"><p class="cap" style="margin:0"><b>المساحة الفارغة</b> اترك حول الشعار مسافة بعرض النقطة الذهبية مرتين على الأقل.</p></div>
+      <div class="box"><p class="cap" style="margin:0"><b>أصغر مقاس</b> الشعار الكامل ما يصغر عن ١٢٠ بكسل عرض، والرمز عن ٢٤ بكسل.</p></div>
+      <div class="box"><p class="cap" style="margin:0"><b>الخلفيات</b> الأفضل على الليلي الداكن. على الفاتح استخدم نسخة PNG الفاتحة.</p></div>
+    </div>
+  </section>
+
+  <section id="color">
+    <h2>الألوان <small>PALETTE</small></h2>
+    <p class="sub">ليل بنفسجي عميق، ونيون وردي وسماوي، وشمس صفراء. الوردي هو لون الأزرار والإجراءات، والسماوي للروابط والتفاصيل، والأصفر للتنبيهات والأسعار والأرقام.</p>
+    <div class="grid4" id="swatches"></div>
+    <div class="grad" aria-hidden="true"></div>
+    <p class="cap">تدرج الغروب (أصفر، برتقالي، وردي، بنفسجي) يُستخدم للعناوين الكبيرة والشمس فقط.</p>
+  </section>
+
+  <section id="type">
+    <h2>الخطوط <small>TYPE</small></h2>
+    <p class="sub">كل الخطوط مجانية من Google Fonts.</p>
+    <div class="box">
+      <div class="type-row"><small><b>Grenze Gotisch</b>الشعار فقط</small><div style="font:700 56px/1 var(--mark);direction:ltr;text-align:right">Vigil</div></div>
+      <div class="type-row"><small><b>Noto Kufi Arabic 900</b>العناوين</small><div style="font:900 34px/1.5 var(--kufi)">نصنع لمشروعك شي يلفت</div></div>
+      <div class="type-row"><small><b>Noto Kufi Arabic 500</b>النصوص</small><div style="font:500 17px/1.9 var(--kufi);color:var(--soft)">استوديو واحد يتابع مشروعك من الفكرة إلى التسليم: هوية، فيديو، تراخيص، ومساعد ذكي يرد على عملائك.</div></div>
+      <div class="type-row"><small><b>Press Start 2P</b>عناوين إنجليزية صغيرة</small><div style="font:400 14px/1.8 var(--px);color:var(--sun);direction:ltr;text-align:right">VIGIL STUDIO</div></div>
+      <div class="type-row"><small><b>VT323</b>أرقام، أوقات، رموز</small><div style="font:400 30px/1.2 var(--vt);color:var(--cyan);direction:ltr;text-align:right">050 144 4443 · 48H</div></div>
+    </div>
+  </section>
+
+  <section id="icons">
+    <h2>الأيقونات <small>SPRITES</small></h2>
+    <p class="sub">أيقونات بكسل ١٢×١٢ مرسومة بألوان الهوية فقط. تتكبّر بأرقام صحيحة (×٢، ×٣، ×٤) عشان البكسل يبقى حاد.</p>
+    <div class="icons" id="iconGrid"></div>
+  </section>
+
+  <section id="ui">
+    <h2>العناصر <small>UI</small></h2>
+    <p class="sub">الإطارات سميكة بزوايا مقصوصة، وظل صلب بدون ضبابية. والضباب الناعم بس في الخلفية (هالات النيون)، عشان الإحساس يكون حالم والعناصر حادة.</p>
+    <div class="grid2">
+      <div class="pixbox"><b style="font:900 18px/1.5 var(--kufi)">إطار البكسل</b><p class="cap">حد ٤ بكسل، وزوايا مقصوصة ٨ بكسل، وظل صلب ٦ بكسل.</p></div>
+      <div class="box" style="display:flex;gap:14px;flex-wrap:wrap;align-items:center"><a class="btn" href="index.html#free">ابدأ معنا مجانًا</a><a class="btn alt" href="index.html#inventory">خدماتنا</a><p class="cap" style="width:100%;margin:0">الزر الوردي للإجراء الأساسي، والسماوي للإجراء الثاني.</p></div>
+    </div>
+  </section>
+
+  <section id="voice">
+    <h2>النبرة <small>VOICE</small></h2>
+    <p class="sub">نتكلم مثل صاحب استوديو يعرف شغله: سعودي بسيط وواضح، بدون مصطلحات ألعاب ولا مبالغة.</p>
+    <div class="scroll"><table class="voice">
+      <thead><tr><th>نقول</th><th>ما نقول</th></tr></thead>
+      <tbody>
+        <tr><td>أضفها لطلبك</td><td>التقطها، احفظ تقدّمك</td></tr>
+        <tr><td>نجهّز ملفك ونمشي معك</td><td>نطلّع لك الترخيص مضمون</td></tr>
+        <tr><td>نرسل لك عرض سعر واضح قبل البدء</td><td>أرخص الأسعار بالسوق</td></tr>
+        <tr><td>خلال يومين</td><td>بسرعة البرق</td></tr>
+      </tbody>
+    </table></div>
+    <div class="grid2" style="margin-top:20px">
+      <div class="box do"><h3>نسوي</h3><ul class="rules"><li>جمل قصيرة، وفعل واضح في كل زر.</li><li>نذكر المدة لكل خدمة.</li><li>نوضح إن Vigil مو جهة حكومية في كل كلام عن التراخيص.</li><li>العربي أولًا، والإنجليزي نسخة كاملة مو مختصرة.</li></ul></div>
+      <div class="box dont"><h3>ما نسوي</h3><ul class="rules"><li>ما نعد بصدور ترخيص أو موعد صدوره.</li><li>ما نقول إننا نقدّم المعاملة نيابة عن العميل.</li><li>ما نكتب أسعار في الموقع، العرض يجي على الواتساب.</li><li>ما نستخدم شعار وزارة أو جهة حكومية في الإعلانات.</li></ul></div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>التواصل <small>CONTACT</small></h2>
+    <div class="box"><p style="margin:0">واتساب: <bdi dir="ltr" style="font:400 26px/1 var(--vt);color:var(--cyan)">050 144 4443</bdi></p><p class="cap" style="margin-top:6px">الموقع: <a href="index.html">العربي</a> · <a href="en.html">English</a></p></div>
+  </section>
+</main>
+
+<footer><div class="g"><span>© 2026 VIGIL STUDIO</span><span>BRAND GUIDE v1</span></div></footer>
+
+<script>
+(() => {
+  const C = { k: '#0e0620', p: '#ff3ea5', c: '#2de2e6', y: '#ffd23f', w: '#f6e9ff', v: '#7b2ff7', o: '#ff8a3d', g: '#3fe08a', d: '#3b1f6e', r: '#ff4455' };
+  const SPR = {
+    mark: ['.y........y.', '.k........k.', 'kkk......kkk', '.pk......kp.', '..pk....kp..', 'ppppk..kpppp', '...pk..kp...', '....pkkp....', '....pkkp....', '.....pp.....', '............', '.....yy.....'],
+    coin: ['....kkkk....', '..kkyyyykk..', '.kyyywwyyyk.', '.kyywyyyyyk.', 'kyywyyyyyyyk', 'kyyyyyyyyoyk', 'kyyyyyyyyoyk', 'kyyyyyyyooyk', '.kyyyyyooyk.', '.kyyyoooyyk.', '..kkyyyykk..', '....kkkk....'],
+    cam: ['............', '............', 'kkkkkkkk....', 'kwwwwwwk.kk.', 'kwcccccwkcck', 'kwcppcckccck', 'kwcppcckccck', 'kwcccccwkcck', 'kwwwwwwk.kk.', 'kkkkkkkk....', '.k....k.....', '............'],
+    ads: ['............', '.......kk...', '.....kkpk...', '..kkkpppk.k.', '.kwwppppk..k', '.kwwppppk.kk', '.kwwppppk..k', '..kkkpppk.k.', '...k.kkpk...', '...k...kk...', '...k........', '............'],
+    logo: ['.y........y.', '.k........k.', 'kkk......kkk', '.ck......kc.', '..ck....kc..', 'cccck..kcccc', '...ck..kc...', '....ckkc....', '....ckkc....', '.....cc.....', '............', '.....yy.....'],
+    menu: ['..kkkkkkkk..', '..kwwwwwwk..', '..kwkkkkwk..', '..kwwwwwwk..', '..kwkkkwwk..', '..kwwwwwwk..', '..kwkkkkwk..', '..kwwwwwwk..', '..kwkkkwwk..', '..kwwwwwwk..', '..kkkkkkkk..', '............'],
+    deck: ['............', 'kkkkkkkkkkkk', 'kvvvvvvvvvvk', 'kvwwwwvvvvvk', 'kvvvvvvvvvvk', 'kvwwwwwwvvvk', 'kvvvvvvvvvvk', 'kkkkkkkkkkkk', '.....kk.....', '....kkkk....', '...kkkkkk...', '............'],
+    key: ['............', '....kkkk....', '...kyyyyk...', '...ky..yk...', '...kyyyyk...', '....kyyk....', '....kyk.....', '....kyyk....', '....kyk.....', '....kyyk....', '....kkk.....', '............'],
+    home: ['.....kk.....', '....kppk....', '...kppppk...', '..kppppppk..', '.kppppppppk.', 'kkwwwwwwwwkk', '.kwwkkwwwwk.', '.kwwkkwwcck.', '.kwwkkwwcck.', '.kwwkkwwwwk.', '.kkkkkkkkkk.', '............'],
+    doc: ['.kkkkkkk....', '.kwwwwwkk...', '.kwwwwwkwk..', '.kwkkkwkkkk.', '.kwwwwwwwwk.', '.kwkkkkkwwk.', '.kwwwwwwwwk.', '.kwkkkkwwwk.', '.kwwwwwwppk.', '.kwwwwwppwk.', '.kkkkkkkkkk.', '............'],
+    chat: ['............', '.kkkkkkkkkk.', 'kcccccccccck', 'kcwwcwwcwwck', 'kcccccccccck', 'kcccccccccck', '.kkkcckkkkk.', '...kck......', '...kk.......', '............', '............', '............'],
+    web: ['kkkkkkkkkkkk', 'kpkykckwwwwk', 'kkkkkkkkkkkk', 'kwwwwwwwwwwk', 'kwvvvvwwwwwk', 'kwvvvvwccwwk', 'kwvvvvwccwwk', 'kwwwwwwwwwwk', 'kwkkkkkkkkwk', 'kwwwwwwwwwwk', 'kkkkkkkkkkkk', '............'],
+    pen: ['.........kk.', '........kpk.', '.......kppk.', '......kppk..', '.....kppk...', '....kppk....', '...kppk.....', '..kyyk......', '..kyk.......', '.kkk........', '............', '............'],
+    pin: ['....kkkk....', '...kppppk...', '..kppwwppk..', '..kpwkkwpk..', '..kppwwppk..', '...kppppk...', '...kppppk...', '....kppk....', '....kppk....', '.....kk.....', '...kkkkkk...', '............'],
+    star: ['.....kk.....', '....kyyk....', '....kyyk....', 'kkkkkyykkkkk', 'kyyyyyyyyyyk', '.kyyyyyyyyk.', '..kyyyyyyk..', '..kyyyyyyk..', '.kyyykkyyyk.', '.kyyk..kyyk.', '.kkk....kkk.', '............'],
+    bot: ['....kkkkkkkk....', '...kcccccccck...', '..kccwwwwwwcck..', '..kcwkkwwkkwck..', '..kcwkkwwkkwck..', '..kcwwwwwwwwck..', '..kcwwkkkkwwck..', '..kccwwwwwwcck..', '...kcccccccck...', '....kkkppkkk....', '..kkpppppppppk..', '.kppwwppppwwppk.', '.kpppppppppppk..', '.kpp.kppppk.ppk.', '.kk..kppppk..kk.', '.....kkkkkk.....']
+  };
+
+  const drawSprite = (cv, name) => { const rows = SPR[name]; if (!rows) return; cv.width = rows[0].length; cv.height = rows.length; const g = cv.getContext('2d'); rows.forEach((r, y) => [...r].forEach((ch, x) => { if (C[ch]) { g.fillStyle = C[ch]; g.fillRect(x, y, 1, 1); } })); };
+  document.querySelectorAll('canvas[data-sprite]').forEach(c => drawSprite(c, c.dataset.sprite));
+  const SW = [['Night', '#0E0620', 'الخلفية الأساسية'], ['Deep', '#160A30', 'الصناديق'], ['Line', '#3B1F6E', 'الحدود'], ['Ink', '#F6E9FF', 'النص'], ['Pink', '#FF3EA5', 'الأزرار والإجراءات'], ['Cyan', '#2DE2E6', 'الروابط والتفاصيل'], ['Sun', '#FFD23F', 'التنبيهات والأرقام'], ['Violet', '#7B2FF7', 'الهالات والتدرج']];
+  const sw = document.getElementById('swatches');
+  SW.forEach(([n, hex, use]) => { const d = document.createElement('div'); d.className = 'box sw'; d.innerHTML = '<i></i><div><b></b><code></code><p class="cap" style="margin:4px 0 0"></p></div>'; d.querySelector('i').style.background = hex; d.querySelector('b').textContent = n; d.querySelector('code').textContent = hex; d.querySelector('.cap').textContent = use; sw.append(d); });
+  const IC = [['cam', 'مونتاج وريلز'], ['ads', 'إعلانات فيديو'], ['logo', 'الهوية'], ['menu', 'منيو'], ['deck', 'بروفايل'], ['key', 'ترخيص الضيافة'], ['home', 'تطبيقات الحجز'], ['doc', 'السجل التجاري'], ['chat', 'المساعد الذكي'], ['web', 'المواقع'], ['pen', 'المحتوى'], ['pin', 'دراسة الموقع'], ['star', 'فحص الهوية'], ['bot', 'المساعد'], ['coin', 'الطلب']];
+  const ig = document.getElementById('iconGrid');
+  IC.forEach(([s, t]) => { const d = document.createElement('div'); d.className = 'icon'; const c = document.createElement('canvas'); drawSprite(c, s); const sp = document.createElement('span'); sp.textContent = t; d.append(c, sp); ig.append(d); });
+})();
+</script>
+</body>
+</html>

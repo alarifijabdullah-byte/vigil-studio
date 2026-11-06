@@ -1,0 +1,725 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<title>Vigil Studio</title>
+<meta name="description" content="Vigil: a production, design, licensing and AI studio.">
+<link rel="icon" href="assets/vigil-mark.svg" type="image/svg+xml">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<script>document.documentElement.lang = 'en'; document.documentElement.dir = 'ltr';</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;600;800;900&family=Press+Start+2P&family=VT323&family=Grenze+Gotisch:wght@700&display=swap">
+<style>
+/* Direction (owner's brief): old-game pixel art on synthwave, a little maximalist and ethereal; after review: lighter pixelation so type stays readable, and plain wording instead of game terms. The 3D studio is rendered at low resolution so it reads as pixels, looking through a window at a striped sunset over a neon grid and the Riyadh skyline. Headings are drawn letter-by-letter onto tiny canvases and scaled up with hard pixels. Sections are game screens: power-ups (free offers), inventory + bag (services), a quest log (licences), an NPC dialog (assistant), a player guide (FAQ) and a save screen (contact). Soft blurred aurora light sits behind crisp pixel UI for the ethereal part. Single dark theme by design. */
+:root {
+  --night: #0e0620;
+  --deep: #160a30;
+  --plum: #24104a;
+  --line: #3b1f6e;
+  --ink: #f6e9ff;
+  --soft: #c9b5ee;
+  --dim: #8f78bd;
+  --pink: #ff3ea5;
+  --cyan: #2de2e6;
+  --sun: #ffd23f;
+  --violet: #7b2ff7;
+  --kufi: "Noto Kufi Arabic", "Segoe UI", Tahoma, sans-serif;
+  --px: "Press Start 2P", ui-monospace, monospace;
+  --vt: "VT323", ui-monospace, monospace;
+  --step: steps(2, end);
+  color-scheme: dark;
+}
+* { box-sizing: border-box }
+html { scroll-behavior: smooth }
+body { margin: 0; background: var(--night); color: var(--ink); font: 500 16px/1.9 var(--kufi); overflow-x: hidden; -webkit-font-smoothing: antialiased }
+::selection { background: var(--pink); color: var(--night) }
+p, h1, h2, h3, ul, ol, dl, dd { margin: 0 }
+a { color: inherit }
+button { font: inherit; color: inherit }
+:focus-visible { outline: 3px solid var(--sun); outline-offset: 3px }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap }
+.g { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); max-width: 1240px; margin-inline: auto }
+
+/* ethereal layer: blurred aurora + scanlines over everything */
+.aura { position: fixed; inset: -10%; z-index: 0; pointer-events: none; filter: blur(70px); opacity: .55;
+  background: radial-gradient(30% 25% at 20% 30%, rgba(123,47,247,.55), transparent 70%), radial-gradient(28% 22% at 80% 60%, rgba(255,62,165,.4), transparent 70%), radial-gradient(25% 20% at 50% 95%, rgba(45,226,230,.28), transparent 70%);
+  animation: drift 26s ease-in-out infinite alternate }
+@keyframes drift { to { transform: translate(3%, -4%) scale(1.08) } }
+#motes { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; image-rendering: pixelated }
+body::after { content: ""; position: fixed; inset: 0; z-index: 90; pointer-events: none; background: repeating-linear-gradient(0deg, rgba(0,0,0,.16) 0 1px, transparent 1px 3px); mix-blend-mode: multiply }
+main, .nav { position: relative; z-index: 1 }
+
+/* pixel boxes with notched corners and hard shadows */
+.box { --b: var(--line); background: var(--deep); border: 4px solid var(--b); box-shadow: 6px 6px 0 #05020c;
+  clip-path: polygon(0 8px, 8px 8px, 8px 0, calc(100% - 8px) 0, calc(100% - 8px) 8px, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 8px calc(100% - 8px), 0 calc(100% - 8px)) }
+.btn { all: unset; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; font: 800 15px/1 var(--kufi); padding: 14px 18px 12px; background: var(--pink); color: var(--night); box-shadow: inset -4px -4px 0 rgba(0,0,0,.25), inset 4px 4px 0 rgba(255,255,255,.35), 5px 5px 0 #05020c; transition: transform 80ms steps(1) }
+.btn:active { transform: translate(4px, 4px); box-shadow: inset -4px -4px 0 rgba(0,0,0,.25), inset 4px 4px 0 rgba(255,255,255,.35), 1px 1px 0 #05020c }
+.btn.alt { background: var(--cyan) }
+.btn.ghost { background: var(--plum); color: var(--ink) }
+.btn[aria-disabled="true"] { filter: grayscale(.8) brightness(.7); pointer-events: none }
+.blink { animation: blink 1s steps(1) infinite }
+@keyframes blink { 50% { opacity: 0 } }
+.tagpx { font: 400 9px/1.6 var(--px); letter-spacing: .04em; color: var(--sun) }
+
+/* pixel titles are canvases */
+.pt { position: relative; margin: 0 }
+.pt canvas { display: block; image-rendering: pixelated; max-width: 100% }
+
+/* nav */
+.nav { position: fixed; inset: 0 0 auto; z-index: 60; background: rgba(14,6,32,.86); backdrop-filter: blur(6px); border-bottom: 4px solid var(--line); padding-top: env(safe-area-inset-top, 0px) }
+.nav .g { max-width: none; height: 52px; display: flex; align-items: center; justify-content: space-between; gap: 14px }
+.logo { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; direction: ltr }
+.logo canvas { width: 28px; height: 28px; image-rendering: pixelated }
+.logo b { font: 700 24px/1 "Grenze Gotisch", serif; color: var(--ink); text-shadow: 2px 2px 0 var(--pink) }
+.menu { display: flex; gap: 6px }
+.menu a { text-decoration: none; font: 600 14px/1 var(--kufi); padding: 9px 10px 7px; border: 2px solid transparent }
+.menu a:hover, .menu a:focus-visible { border-color: var(--cyan); color: var(--cyan) }
+.hud { display: flex; align-items: center; gap: 16px; font: 700 14px/1 var(--kufi); color: var(--sun) }
+.hud .bag { display: inline-flex; align-items: center; gap: 6px; text-decoration: none }
+.hud canvas { width: 20px; height: 20px; image-rendering: pixelated }
+.hud a.lang { color: var(--cyan); text-decoration: none; font: 400 20px/1 var(--vt) }
+@media (max-width: 900px) { .menu { display: none } }
+
+/* hero: pixel 3D studio */
+.hero { padding-top: calc(52px + env(safe-area-inset-top, 0px)) }
+.scene { position: relative; height: calc(100svh - 52px - env(safe-area-inset-top, 0px)); min-height: 560px; overflow: hidden; background: linear-gradient(#1a0838, #ff3ea5 60%, #ffd23f) }
+.scene > canvas { position: absolute; inset: 0; width: 100%; height: 100%; image-rendering: pixelated; touch-action: pan-y }
+.scene::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(70% 60% at 50% 45%, transparent 55%, rgba(14,6,32,.75)) }
+.title { position: absolute; z-index: 3; inset-inline: 0; top: 5%; display: grid; justify-items: center; gap: 10px; text-align: center; pointer-events: none }
+.title .pt canvas { margin-inline: auto; filter: drop-shadow(0 0 18px rgba(255,62,165,.55)) }
+.title .sub { font: 600 15px/1.8 var(--kufi); color: var(--ink); background: rgba(14,6,32,.72); border: 2px solid var(--line); max-width: 34em; padding: 6px 14px 4px; margin-inline: 16px }
+.start { pointer-events: auto; margin-top: 6px; font: 800 16px/1 var(--kufi); color: var(--sun); text-decoration: none; padding: 12px 16px; background: rgba(14,6,32,.55); border: 3px solid var(--sun); text-shadow: 2px 2px 0 #000 }
+.start span { display: inline-block; margin-inline-end: 8px }
+.hudline { position: absolute; z-index: 3; top: 14px; inset-inline: 16px; display: flex; justify-content: space-between; font: 400 10px/1 var(--px); color: var(--ink); text-shadow: 2px 2px 0 #000; pointer-events: none; direction: ltr }
+.hots { position: absolute; inset: 0; z-index: 2; pointer-events: none }
+.hot { all: unset; position: absolute; left: 0; top: 0; pointer-events: auto; cursor: pointer; display: flex; align-items: center; gap: 6px; will-change: transform }
+.hot i { width: 12px; height: 12px; background: var(--sun); box-shadow: 0 0 0 3px var(--night), 0 0 12px var(--sun); animation: blink 1.2s steps(1) infinite }
+.hot span { font: 700 12px/1 var(--kufi); background: var(--night); color: var(--ink); border: 2px solid var(--cyan); padding: 6px 8px 4px; white-space: nowrap }
+.hot:hover span, .hot:focus-visible span { background: var(--cyan); color: var(--night) }
+.scene.nogl { background: linear-gradient(#1a0838 0%, #6b1b74 45%, #ff3ea5 70%, #ffd23f) }
+@media (max-width: 760px) { .hot span { display: none } .hot i { width: 14px; height: 14px } .title { top: 5% } }
+
+/* ticker */
+.ticker { position: relative; z-index: 1; background: var(--sun); color: var(--night); border-block: 4px solid var(--night); overflow: hidden; transform: rotate(-1.2deg); margin-top: -18px }
+.ticker .track { direction: ltr; display: flex; width: max-content; animation: run 34s linear infinite }
+.ticker span { direction: ltr; font: 900 22px/1 var(--kufi); padding: 14px 18px 10px; white-space: nowrap; display: inline-flex; gap: 18px; align-items: center }
+.ticker span::after { content: "✦"; color: var(--pink) }
+@keyframes run { to { transform: translateX(-50%) } }
+
+section { padding-block: 110px 0 }
+.head { display: grid; gap: 12px; margin-bottom: 34px }
+.head .lead { color: var(--soft); max-width: 40em }
+
+/* power-ups */
+.ups { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px }
+.up { --b: var(--pink); padding: 22px 18px 18px; display: grid; gap: 12px; align-content: start; transition: transform 120ms steps(2) }
+.up:nth-child(2) { --b: var(--cyan); transform: rotate(1deg) } .up:nth-child(3) { --b: var(--violet); transform: rotate(-1deg) }
+.up:hover { transform: translateY(-6px) }
+.up .sp { width: 60px; height: 60px; image-rendering: pixelated; animation: bob 1.6s steps(4) infinite alternate }
+@keyframes bob { to { transform: translateY(-6px) } }
+.up h3 { font: 800 18px/1.5 var(--kufi) }
+.up p { font: 500 14px/1.8 var(--kufi); color: var(--soft) }
+.up .meta { font: 700 13px/1.4 var(--kufi); color: var(--sun) }
+.up .btn { justify-content: center; font-size: 14px }
+.up .btn[aria-pressed="true"] { background: var(--cyan) }
+@media (max-width: 1000px) { .ups { grid-template-columns: 1fr } }
+@media (max-width: 540px) { .ups { grid-template-columns: 1fr } }
+
+/* bundles */
+.bundles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px }
+.bundle { --b: var(--cyan); padding: 22px 20px 20px; display: grid; gap: 14px; align-content: start }
+.bundle:nth-child(2) { --b: var(--pink) } .bundle:nth-child(3) { --b: var(--sun) }
+.bundle h3 { font: 900 20px/1.5 var(--kufi) }
+.bundle .for { font: 600 13px/1.7 var(--kufi); color: var(--soft) }
+.bundle ul { list-style: none; padding: 0; display: grid; gap: 8px }
+.bundle li { display: flex; align-items: center; gap: 10px; font: 700 14px/1.5 var(--kufi) }
+.bundle li canvas { width: 24px; height: 24px; image-rendering: pixelated; flex: none }
+.bundle .btn { justify-content: center }
+@media (max-width: 900px) { .bundles { grid-template-columns: 1fr } }
+
+/* inventory + bag */
+.inv { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr); gap: 24px; align-items: start }
+.groups { display: grid; gap: 20px }
+.grp { padding: 18px }
+.grp h3 { display: flex; align-items: center; gap: 10px; font: 800 17px/1.4 var(--kufi); margin-bottom: 4px }
+.grp .gd { font: 500 14px/1.8 var(--kufi); color: var(--soft); margin-bottom: 14px }
+.grp h3 small { font: 400 9px/1 var(--px); color: var(--dim); direction: ltr }
+.slots { display: grid; grid-template-columns: repeat(auto-fill, minmax(124px, 1fr)); gap: 10px }
+.slot { all: unset; cursor: pointer; position: relative; display: grid; justify-items: center; gap: 8px; padding: 14px 8px 10px; text-align: center; background: var(--night); border: 3px solid var(--line); font: 700 13px/1.5 var(--kufi); transition: border-color 80ms steps(1), background-color 80ms steps(1) }
+.slot canvas { width: 44px; height: 44px; image-rendering: pixelated }
+.slot:hover { border-color: var(--cyan) }
+.slot[aria-pressed="true"] { border-color: var(--sun); background: #2b1450 }
+.slot[aria-pressed="true"]::after { content: "✓"; position: absolute; top: 4px; inset-inline-start: 6px; font: 400 18px/1 var(--vt); color: var(--sun) }
+.slot:focus-visible { outline: 3px solid var(--sun); outline-offset: 2px }
+.bagbox { --b: var(--sun); position: sticky; top: calc(70px + env(safe-area-inset-top, 0px)); padding: 20px; display: grid; gap: 14px }
+.bagbox h3 { display: flex; justify-content: space-between; align-items: center; font: 800 18px/1 var(--kufi) }
+.bagbox h3 span { font: 400 24px/1 var(--vt); color: var(--sun) }
+.bagbox ul { list-style: none; padding: 0; display: grid; gap: 8px; min-height: 96px }
+.bagbox li { display: flex; align-items: center; gap: 10px; font: 700 14px/1.4 var(--kufi); animation: pop .25s steps(3) both }
+.bagbox li canvas { width: 26px; height: 26px; image-rendering: pixelated; flex: none }
+@keyframes pop { from { transform: scale(.4); opacity: 0 } }
+.bagbox .empty { color: var(--dim); font: 500 13px/1.8 var(--kufi); border: 3px dashed var(--line); padding: 14px; text-align: center }
+.detail { font: 500 13px/1.8 var(--kufi); color: var(--soft); border-top: 3px dotted var(--line); padding-top: 12px; min-height: 64px }
+.detail b { color: var(--cyan); display: block; font-size: 14px }
+@media (max-width: 900px) { .inv { grid-template-columns: 1fr } .bagbox { position: relative; top: 0 } }
+
+/* quest */
+.quest { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px; align-items: center }
+.log { --b: var(--cyan); padding: 22px }
+.log .tagpx { color: var(--cyan) }
+.log h3 { font: 900 22px/1.5 var(--kufi); margin: 6px 0 14px }
+.steps { list-style: none; padding: 0; display: grid; gap: 12px }
+.steps li { display: grid; grid-template-columns: 26px 1fr; gap: 12px; align-items: start; font: 600 15px/1.7 var(--kufi) }
+.steps li i { width: 22px; height: 22px; border: 3px solid var(--cyan); margin-top: 4px; display: grid; place-items: center; font: 400 18px/1 var(--vt); color: var(--sun); font-style: normal }
+.steps li small { display: block; color: var(--soft); font-weight: 500; font-size: 13px }
+.xp { margin-top: 18px; display: grid; gap: 6px; font: 400 9px/1 var(--px); color: var(--dim); direction: ltr }
+.xp div { height: 14px; border: 3px solid var(--line); background: var(--night); position: relative }
+.xp div i { position: absolute; inset: 0; right: auto; width: 0; background: repeating-linear-gradient(90deg, var(--pink) 0 8px, #c62a80 8px 10px); transition: width 1.6s steps(12) }
+.fine { margin-top: 14px; font: 500 12px/1.8 var(--kufi); color: var(--dim) }
+.permit { --b: var(--sun); position: relative; padding: 22px; transform: rotate(-2deg); max-width: 460px; justify-self: center; width: 100% }
+.permit .tagpx { color: var(--pink) }
+.permit h3 { font: 800 18px/1.6 var(--kufi); margin-top: 6px; padding-bottom: 12px; border-bottom: 3px dotted var(--line) }
+.permit dl { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; font: 700 14px/1.5 var(--kufi) }
+.permit dt { font: 500 12px/1.4 var(--kufi); color: var(--dim) }
+.stamp { position: absolute; inset-inline-end: 18px; bottom: 16px; width: 112px; height: 112px; image-rendering: pixelated; transform: rotate(-12deg) }
+.stamp.thump { animation: thump .5s steps(5) both }
+@keyframes thump { 0% { opacity: 0; transform: rotate(-26deg) scale(2.2) } 100% { opacity: 1; transform: rotate(-12deg) scale(1) } }
+@media (max-width: 860px) { .quest { grid-template-columns: 1fr } }
+
+/* NPC dialog */
+.npc { --b: var(--pink); padding: 0; overflow: hidden }
+.worlds { display: flex; gap: 8px; flex-wrap: wrap; padding: 14px 16px; border-bottom: 4px solid var(--line); align-items: center }
+.worlds span { font: 400 9px/1 var(--px); color: var(--dim); margin-inline-end: 6px; direction: ltr }
+.worlds button { all: unset; cursor: pointer; font: 700 13px/1 var(--kufi); padding: 8px 10px 6px; border: 3px solid var(--line) }
+.worlds button[aria-pressed="true"] { border-color: var(--sun); color: var(--sun) }
+.stage2 { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 16px; padding: 18px 16px; min-height: 230px }
+.portrait { display: grid; justify-items: center; gap: 8px; align-content: start }
+.portrait canvas { width: 96px; height: 96px; image-rendering: pixelated; background: var(--night); border: 3px solid var(--line) }
+.portrait b { font: 700 12px/1.4 var(--kufi); color: var(--cyan); text-align: center }
+.log2 { display: grid; gap: 10px; align-content: start; max-height: 300px; overflow-y: auto }
+.say { font: 600 15px/1.9 var(--kufi); padding: 10px 12px 8px; background: var(--night); border: 3px solid var(--line) }
+.say.me { border-color: var(--cyan); color: var(--cyan); justify-self: start }
+.say.bot { justify-self: stretch }
+.say .cur { display: inline-block; width: 8px; height: 14px; background: var(--ink); vertical-align: -2px; margin-inline-start: 3px; animation: blink .8s steps(1) infinite }
+.choices { display: grid; gap: 6px; padding: 14px 16px 18px; border-top: 4px solid var(--line) }
+.choices button { all: unset; cursor: pointer; font: 700 15px/1.6 var(--kufi); padding: 6px 8px; border: 2px solid transparent }
+.choices button::before { content: "▶ "; color: var(--pink) }
+.choices button:hover, .choices button:focus-visible { border-color: var(--pink); background: rgba(255,62,165,.1) }
+.choices button[disabled] { opacity: .35; cursor: default }
+.npcwrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 28px; align-items: start }
+.npcwrap .side { display: grid; gap: 14px }
+.chips { display: flex; flex-wrap: wrap; gap: 8px }
+.chips span { font: 400 18px/1 var(--vt); padding: 6px 10px 4px; border: 3px solid var(--line); color: var(--soft) }
+@media (max-width: 860px) { .npcwrap { grid-template-columns: 1fr } .stage2 { grid-template-columns: 76px minmax(0, 1fr) } .portrait canvas { width: 68px; height: 68px } }
+
+/* identity */
+.ident { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 28px; align-items: center }
+.markbox { --b: var(--violet); height: 420px; position: relative; overflow: hidden; background: radial-gradient(60% 60% at 50% 50%, #2b1052, var(--night)) }
+#dots { position: absolute; inset: 0; width: 100%; height: 100%; image-rendering: pixelated }
+@media (max-width: 860px) { .ident { grid-template-columns: 1fr } .markbox { height: 320px } }
+
+/* player guide (FAQ) */
+.guide { display: grid; gap: 12px }
+.guide details { background: var(--deep); border: 4px solid var(--line) }
+.guide details[open] { border-color: var(--cyan) }
+.guide summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; gap: 14px; padding: 14px 16px 12px; font: 800 16px/1.6 var(--kufi) }
+.guide summary::-webkit-details-marker { display: none }
+.guide summary::after { content: "+"; font: 400 26px/1 var(--vt); color: var(--sun) }
+.guide details[open] summary::after { content: "−" }
+.guide p { padding: 0 16px 16px; color: var(--soft); font: 500 15px/1.9 var(--kufi) }
+
+/* save screen */
+.save { --b: var(--sun); padding: 26px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 28px }
+.save .info { display: grid; gap: 12px; align-content: start }
+.save .info .row { font: 400 22px/1.2 var(--vt); color: var(--cyan); direction: ltr; text-align: left }
+.slotsave { display: grid; grid-template-columns: 1fr 1fr; gap: 12px }
+.slotsave label { display: grid; gap: 6px; font: 400 9px/1.4 var(--px); color: var(--dim) }
+.slotsave label b { font: 700 13px/1 var(--kufi); color: var(--soft) }
+.slotsave .wide { grid-column: 1 / -1 }
+.slotsave input, .slotsave textarea { font: 600 16px/1.6 var(--kufi); color: var(--ink); background: var(--night); border: 3px solid var(--line); padding: 10px 12px; width: 100%; resize: vertical; border-radius: 0 }
+.slotsave input:focus-visible, .slotsave textarea:focus-visible { outline: none; border-color: var(--cyan) }
+.out { grid-column: 1 / -1; border: 3px solid var(--cyan); background: var(--night); padding: 14px; display: grid; gap: 10px; font: 600 14px/1.8 var(--kufi) }
+.out pre { margin: 0; white-space: pre-wrap; font: 500 14px/1.8 var(--kufi); color: var(--soft) }
+@media (max-width: 860px) { .save { grid-template-columns: 1fr } }
+@media (max-width: 480px) { .slotsave { grid-template-columns: 1fr } }
+
+.foot { margin-top: 110px; padding-block: 26px 40px; border-top: 4px solid var(--line); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font: 400 20px/1.4 var(--vt); color: var(--dim); direction: ltr }
+
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important } html { scroll-behavior: auto } }
+</style>
+
+<div class="aura" aria-hidden="true"></div>
+<canvas id="motes" aria-hidden="true"></canvas>
+
+<nav class="nav" aria-label="Menu">
+  <div class="g">
+    <a class="logo" href="#top" aria-label="Vigil"><canvas data-sprite="mark" width="12" height="12"></canvas><b>Vigil</b></a>
+    <div class="menu"><a href="#free">Free</a><a href="#bundles">Bundles</a><a href="#inventory">Services</a><a href="#quest">Licences</a><a href="#npc">AI Assistant</a><a href="#guide">FAQ</a><a href="#save">Contact</a></div>
+    <div class="hud"><a class="bag" href="#inventory">Your order <span id="score">(0)</span></a><a class="lang" href="index.html" lang="ar">عربي</a></div>
+  </div>
+</nav>
+
+<main id="top">
+  <section class="hero" aria-labelledby="t1" style="padding:0;padding-top:calc(52px + env(safe-area-inset-top, 0px))">
+    <div class="scene" id="scene">
+      <canvas id="room" aria-hidden="true"></canvas>
+      <div class="hots" id="hots"></div>
+      <div class="hudline" aria-hidden="true"><span>VIGIL STUDIO</span><span id="hiclock">00:00</span></div>
+      <div class="title">
+        <h1 class="pt" id="t1" data-font="gothic" data-size="74" data-scale="3"><span class="sr">Vigil</span></h1>
+        <p class="pt" data-size="30" data-scale="2" data-max="900"><span class="sr">We make your business stand out</span></p>
+        <p class="sub">A production, design, licensing and AI studio. Look around the studio and tap any object.</p>
+        <a class="start" href="#free"><span class="blink">▶</span>Start for free</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="ticker" aria-hidden="true"><div class="track" id="track"><span>Editing & Reels</span><span>Branding</span><span>Hospitality Unit Licence</span><span>AI customer assistant</span><span>Free location study</span><span>Video Ads</span><span>Websites</span><span>Commercial registration</span></div></div>
+
+  <section id="free" aria-labelledby="h-free">
+    <div class="g">
+      <div class="head"><h2 class="pt" id="h-free" data-size="26" data-scale="2"><span class="sr">Free services</span></h2><p class="lead">Three services we start with at no cost, so you can see our work before you decide. Pick what fits and it goes into your order.</p></div>
+      <div class="ups" id="ups"></div>
+    </div>
+  </section>
+
+  <section id="bundles" aria-labelledby="h-bun">
+    <div class="g">
+      <div class="head"><h2 class="pt" id="h-bun" data-size="26" data-scale="2"><span class="sr">Ready bundles</span></h2><p class="lead">Services that work well together. Add a bundle in one tap, then add or remove anything.</p></div>
+      <div class="bundles" id="bundleGrid"></div>
+    </div>
+  </section>
+
+  <section id="inventory" aria-labelledby="h-inv">
+    <div class="g">
+      <div class="head"><h2 class="pt" id="h-inv" data-size="26" data-scale="2"><span class="sr">Our services</span></h2><p class="lead">Tap any service you need to add it to your order. We send a clear quote before we start.</p></div>
+      <div class="inv">
+        <div class="groups" id="groups"></div>
+        <aside class="box bagbox" aria-labelledby="bag-h">
+          <h3 id="bag-h">Your order <span id="bagn">(0)</span></h3>
+          <ul id="bag"></ul>
+          <div class="detail" id="detail" aria-live="polite"></div>
+          <a class="btn" id="go" href="#save" aria-disabled="true">Send order →</a>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section id="quest" aria-labelledby="h-quest">
+    <div class="g">
+      <div class="head"><h2 class="pt" id="h-quest" data-size="26" data-scale="2"><span class="sr">Licences</span></h2></div>
+      <div class="quest">
+        <div class="box log">
+          
+          <h3>Your licence file, ready without the runaround</h3>
+          <ol class="steps">
+            <li><i>1</i><div>Send us your business or property details<small>On WhatsApp. We tell you which licence you need and exactly what it requires.</small></div></li>
+            <li><i>2</i><div>We prepare the file and review it with you<small>Documents, details and photos, matched to the regulation.</small></div></li>
+            <li><i>3</i><div>You submit from your account, we guide you<small>Step by step on the official platform until the decision is issued.</small></div></li>
+          </ol>
+          <div class="xp"><div><i id="xp"></i></div></div>
+          <p class="fine">Vigil prepares files and guides you; it is not a government body. Applications are submitted from the owner’s own account, and the relevant authority reviews them, issues the licence and receives its fees.</p>
+        </div>
+        <div class="box permit" id="permit">
+          
+          <h3>Private hospitality unit licence</h3><p style="font-size:12px;color:var(--dim)">Example</p>
+          <dl><div><dt>Property</dt><dd>Palm Chalet</dd></div><div><dt>Authority</dt><dd>Ministry of Tourism</dd></div><div><dt>Type</dt><dd>Private chalet</dd></div><div><dt>Status</dt><dd>Valid</dd></div></dl>
+          <canvas class="stamp" id="stamp" width="28" height="28" aria-hidden="true"></canvas>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="npc" aria-labelledby="h-npc">
+    <div class="g">
+      <div class="head"><h2 class="pt" id="h-npc" data-size="26" data-scale="2"><span class="sr">AI Assistant</span></h2></div>
+      <div class="npcwrap">
+        <div class="side">
+          <p class="lead" style="color:var(--soft)">An assistant built on Claude that answers your customers in their own dialect around the clock, and hands you what needs you. Pick a business and ask as a customer.</p>
+          <div class="chips"><span>WHATSAPP</span><span>INSTAGRAM</span><span>WEB CHAT</span><span>ARABIC · EN</span></div>
+        </div>
+        <div class="box npc">
+          <div class="worlds" role="group" aria-label="Choose a business"><span style="font:600 12px/1 var(--kufi)">Business</span><button type="button" data-biz="clinic" aria-pressed="true">Clinic</button><button type="button" data-biz="chalet" aria-pressed="false">Chalet</button><button type="button" data-biz="cafe" aria-pressed="false">Café</button></div>
+          <div class="stage2">
+            <div class="portrait"><canvas data-sprite="bot" width="16" height="16"></canvas><b id="npcName">Clinic assistant</b></div>
+            <div class="log2" id="log2" aria-live="polite"></div>
+          </div>
+          <div class="choices" id="choices" role="group" aria-label="Ask as a customer"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="identity" aria-labelledby="h-id">
+    <div class="g">
+      <div class="ident">
+        <div class="box markbox"><canvas id="dots" aria-hidden="true"></canvas></div>
+        <div class="head" style="margin:0"><h2 class="pt" id="h-id" data-size="26" data-scale="2"><span class="sr">Branding</span></h2><p class="lead">A logo in Arabic and English, colours, type and a brand guide, so everything your business puts out looks like one brand. Move your cursor over the mark.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="guide" aria-labelledby="h-guide">
+    <div class="g">
+      <div class="head"><h2 class="pt" id="h-guide" data-size="26" data-scale="2"><span class="sr">FAQ</span></h2></div>
+      <div class="guide">
+        <details open><summary>What’s the difference between the free and full service?</summary><p>The free version is a short one that shows you our work and where your business stands. The full service is the complete job: a full report, a full identity, your licence file, or launching the assistant. No commitment after the free one.</p></details>
+        <details><summary>Do you submit the hospitality licence for me?</summary><p>We prepare the full file and review it with you under the Private Hospitality Unit Regulation. You submit from your own account on the Ministry of Tourism platform, and we stay with you step by step. The decision is the Ministry’s, and government fees are paid to it.</p></details>
+        <details><summary>What does the location study include?</summary><p>We compare two to four neighbourhoods: competitors and their ratings, the area, rent and break-even. You get a PDF report with a clear recommendation.</p></details>
+        <details><summary>Do I own the logo and files?</summary><p>Yes. Once payment is complete, all files and design rights are yours.</p></details>
+        <details><summary>Do you work with clients in other cities or countries?</summary><p>Yes. We work remotely: message us on WhatsApp and we deliver the finished work.</p></details>
+        <details><summary>How does payment work?</summary><p>We send a fixed quote before we start. Half up front and half on delivery, by bank transfer or mada.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section id="save" aria-labelledby="h-save">
+    <div class="g">
+      <div class="head"><h2 class="pt" id="h-save" data-size="26" data-scale="2"><span class="sr">Contact us</span></h2></div>
+      <div class="box save">
+        <div class="info">
+          <p class="lead" style="color:var(--soft)">Tell us about your project and we’ll reply within one working day with a free consultation.</p>
+                    <p class="row" dir="ltr" style="text-align:start">WhatsApp: <bdi dir="ltr">050 144 4443</bdi></p>
+        </div>
+        <form class="slotsave" id="ctaForm" novalidate>
+          <label><b>Name</b><input id="cName" autocomplete="name" required></label>
+          <label><b>Phone</b><input id="cPhone" type="tel" autocomplete="tel" dir="ltr" required></label>
+          <label class="wide"><b>Services</b><input id="cServices" placeholder="From your order above, or type them here"></label>
+          <label class="wide"><b>About your project</b><textarea id="cMsg" rows="3" maxlength="1500"></textarea></label>
+          <button class="btn" type="submit" style="justify-self:start">Prepare my message</button>
+          <div class="out" id="out" hidden><span id="outNote"></span><pre id="outText"></pre><div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn" id="waOpen" target="_blank" rel="noopener" hidden>Open WhatsApp</a><button class="btn alt" type="button" id="copy">Copy message</button></div></div>
+        </form>
+      </div>
+      <div class="foot"><span>© 2026 Vigil</span><span><a href="brand.html" style="color:inherit">Brand guide</a> · VIGIL STUDIO</span></div>
+    </div>
+  </section>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* Vigil's WhatsApp number in international form without + (e.g. 9665XXXXXXXX). Leave empty until the real number is ready. */
+  const WA = '966501444443';
+  const waLink = (text) => WA ? 'https://wa.me/' + WA + '?text=' + encodeURIComponent(text) : '';
+  const C = { k: '#0e0620', p: '#ff3ea5', c: '#2de2e6', y: '#ffd23f', w: '#f6e9ff', v: '#7b2ff7', o: '#ff8a3d', g: '#3fe08a', d: '#3b1f6e', r: '#ff4455' };
+
+  /* sprites: one character per pixel */
+  const SPR = {
+    mark: ['.y........y.', '.k........k.', 'kkk......kkk', '.pk......kp.', '..pk....kp..', 'ppppk..kpppp', '...pk..kp...', '....pkkp....', '....pkkp....', '.....pp.....', '............', '.....yy.....'],
+    coin: ['....kkkk....', '..kkyyyykk..', '.kyyywwyyyk.', '.kyywyyyyyk.', 'kyywyyyyyyyk', 'kyyyyyyyyoyk', 'kyyyyyyyyoyk', 'kyyyyyyyooyk', '.kyyyyyooyk.', '.kyyyoooyyk.', '..kkyyyykk..', '....kkkk....'],
+    cam: ['............', '............', 'kkkkkkkk....', 'kwwwwwwk.kk.', 'kwcccccwkcck', 'kwcppcckccck', 'kwcppcckccck', 'kwcccccwkcck', 'kwwwwwwk.kk.', 'kkkkkkkk....', '.k....k.....', '............'],
+    ads: ['............', '.......kk...', '.....kkpk...', '..kkkpppk.k.', '.kwwppppk..k', '.kwwppppk.kk', '.kwwppppk..k', '..kkkpppk.k.', '...k.kkpk...', '...k...kk...', '...k........', '............'],
+    logo: ['.y........y.', '.k........k.', 'kkk......kkk', '.ck......kc.', '..ck....kc..', 'cccck..kcccc', '...ck..kc...', '....ckkc....', '....ckkc....', '.....cc.....', '............', '.....yy.....'],
+    menu: ['..kkkkkkkk..', '..kwwwwwwk..', '..kwkkkkwk..', '..kwwwwwwk..', '..kwkkkwwk..', '..kwwwwwwk..', '..kwkkkkwk..', '..kwwwwwwk..', '..kwkkkwwk..', '..kwwwwwwk..', '..kkkkkkkk..', '............'],
+    deck: ['............', 'kkkkkkkkkkkk', 'kvvvvvvvvvvk', 'kvwwwwvvvvvk', 'kvvvvvvvvvvk', 'kvwwwwwwvvvk', 'kvvvvvvvvvvk', 'kkkkkkkkkkkk', '.....kk.....', '....kkkk....', '...kkkkkk...', '............'],
+    key: ['............', '....kkkk....', '...kyyyyk...', '...ky..yk...', '...kyyyyk...', '....kyyk....', '....kyk.....', '....kyyk....', '....kyk.....', '....kyyk....', '....kkk.....', '............'],
+    home: ['.....kk.....', '....kppk....', '...kppppk...', '..kppppppk..', '.kppppppppk.', 'kkwwwwwwwwkk', '.kwwkkwwwwk.', '.kwwkkwwcck.', '.kwwkkwwcck.', '.kwwkkwwwwk.', '.kkkkkkkkkk.', '............'],
+    doc: ['.kkkkkkk....', '.kwwwwwkk...', '.kwwwwwkwk..', '.kwkkkwkkkk.', '.kwwwwwwwwk.', '.kwkkkkkwwk.', '.kwwwwwwwwk.', '.kwkkkkwwwk.', '.kwwwwwwppk.', '.kwwwwwppwk.', '.kkkkkkkkkk.', '............'],
+    chat: ['............', '.kkkkkkkkkk.', 'kcccccccccck', 'kcwwcwwcwwck', 'kcccccccccck', 'kcccccccccck', '.kkkcckkkkk.', '...kck......', '...kk.......', '............', '............', '............'],
+    web: ['kkkkkkkkkkkk', 'kpkykckwwwwk', 'kkkkkkkkkkkk', 'kwwwwwwwwwwk', 'kwvvvvwwwwwk', 'kwvvvvwccwwk', 'kwvvvvwccwwk', 'kwwwwwwwwwwk', 'kwkkkkkkkkwk', 'kwwwwwwwwwwk', 'kkkkkkkkkkkk', '............'],
+    pen: ['.........kk.', '........kpk.', '.......kppk.', '......kppk..', '.....kppk...', '....kppk....', '...kppk.....', '..kyyk......', '..kyk.......', '.kkk........', '............', '............'],
+    pin: ['....kkkk....', '...kppppk...', '..kppwwppk..', '..kpwkkwpk..', '..kppwwppk..', '...kppppk...', '...kppppk...', '....kppk....', '....kppk....', '.....kk.....', '...kkkkkk...', '............'],
+    star: ['.....kk.....', '....kyyk....', '....kyyk....', 'kkkkkyykkkkk', 'kyyyyyyyyyyk', '.kyyyyyyyyk.', '..kyyyyyyk..', '..kyyyyyyk..', '.kyyykkyyyk.', '.kyyk..kyyk.', '.kkk....kkk.', '............'],
+    bot: ['....kkkkkkkk....', '...kcccccccck...', '..kccwwwwwwcck..', '..kcwkkwwkkwck..', '..kcwkkwwkkwck..', '..kcwwwwwwwwck..', '..kcwwkkkkwwck..', '..kccwwwwwwcck..', '...kcccccccck...', '....kkkppkkk....', '..kkpppppppppk..', '.kppwwppppwwppk.', '.kpppppppppppk..', '.kpp.kppppk.ppk.', '.kk..kppppk..kk.', '.....kkkkkk.....']
+  };
+  const drawSprite = (cv, name, scale = 1) => { const rows = SPR[name]; if (!rows) return; const h = rows.length, w = rows[0].length; cv.width = w * scale; cv.height = h * scale; const g = cv.getContext('2d'); g.clearRect(0, 0, cv.width, cv.height); rows.forEach((r, y) => [...r].forEach((ch, x) => { if (C[ch]) { g.fillStyle = C[ch]; g.fillRect(x * scale, y * scale, scale, scale); } })); };
+  const sprite = (name) => { const c = document.createElement('canvas'); drawSprite(c, name); return c; };
+  document.querySelectorAll('canvas[data-sprite]').forEach(c => drawSprite(c, c.dataset.sprite));
+
+  /* pixel titles: text drawn tiny, thresholded, coloured like chrome, then scaled with hard pixels */
+  const GRAD = [[255, 210, 63], [255, 138, 61], [255, 62, 165], [123, 47, 247]];
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const gradAt = (t) => { const s = t * (GRAD.length - 1), i = Math.min(GRAD.length - 2, Math.floor(s)), f = s - i; return GRAD[i].map((v, k) => Math.round(lerp(v, GRAD[i + 1][k], f))); };
+  const pixelTitle = (el) => {
+    const text = el.querySelector('.sr').textContent, gothic = el.dataset.font === 'gothic';
+    let P = +el.dataset.scale || 2; if (innerWidth < 600) P = Math.max(2, P - 1);
+    const maxW = Math.min(+(el.dataset.max || 1200), (el.parentElement.clientWidth || innerWidth) - 4);
+    const fs = (+el.dataset.size || 13) * (innerWidth < 600 && !gothic ? .9 : 1), cw = Math.floor(maxW / P);
+    const font = gothic ? `700 ${fs}px "Grenze Gotisch", serif` : `900 ${fs}px "Noto Kufi Arabic", sans-serif`;
+    const m = document.createElement('canvas').getContext('2d'); m.font = font;
+    const words = text.split(' '), lines = []; let cur = '';
+    words.forEach(w => { const t = cur ? cur + ' ' + w : w; if (m.measureText(t).width > cw - 4 && cur) { lines.push(cur); cur = w; } else cur = t; }); if (cur) lines.push(cur);
+    const lh = Math.round(fs * (gothic ? 1.05 : 1.75)), width = Math.min(cw, Math.ceil(Math.max(...lines.map(l => m.measureText(l).width))) + 4), height = lh * lines.length + 4;
+    let cv = el.querySelector('canvas'); if (!cv) { cv = document.createElement('canvas'); cv.setAttribute('aria-hidden', 'true'); el.append(cv); }
+    cv.width = width; cv.height = height; const g = cv.getContext('2d'); g.font = font; g.textBaseline = 'middle'; g.fillStyle = '#fff';
+    const rtl = !gothic && document.documentElement.dir === 'rtl'; g.direction = rtl ? 'rtl' : 'ltr'; g.textAlign = gothic ? 'center' : (rtl ? 'right' : 'left');
+    lines.forEach((l, i) => g.fillText(l, gothic ? width / 2 : (rtl ? width - 2 : 2), lh * i + lh / 2 + 1));
+    const img = g.getImageData(0, 0, width, height), d = img.data, solid = new Uint8Array(width * height);
+    for (let i = 0; i < solid.length; i++) solid[i] = d[i * 4 + 3] > 90 ? 1 : 0;
+    for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) { const i = y * width + x, o = i * 4;
+      if (solid[i]) { const [r, gg, b] = gradAt(((y % lh) / lh)); d[o] = r; d[o + 1] = gg; d[o + 2] = b; d[o + 3] = 255; if (false) { d[o] = Math.min(255, r + 30); d[o + 1] = Math.min(255, gg + 30); d[o + 2] = Math.min(255, b + 30); } }
+      else if ((x > 0 && y > 0 && solid[(y - 1) * width + x - 1])) { d[o] = 14; d[o + 1] = 6; d[o + 2] = 32; d[o + 3] = 255; }
+      else d[o + 3] = 0; }
+    g.putImageData(img, 0, 0); cv.style.width = width * P + 'px'; cv.style.height = height * P + 'px';
+  };
+  const titles = [...document.querySelectorAll('.pt')];
+  const drawTitles = () => titles.forEach(pixelTitle);
+  drawTitles();
+  (document.fonts ? Promise.all([document.fonts.load('900 13px "Noto Kufi Arabic"'), document.fonts.load('700 54px "Grenze Gotisch"')]) : Promise.resolve()).then(drawTitles).catch(() => {});
+  let rz; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(drawTitles, 150); });
+
+  /* ethereal motes over the page */
+  (() => {
+    const cv = document.getElementById('motes'), g = cv.getContext('2d'); let W, H; const N = 70, M = [];
+    const size = () => { W = cv.width = Math.ceil(innerWidth / 3); H = cv.height = Math.ceil(innerHeight / 3); };
+    size(); addEventListener('resize', size);
+    for (let i = 0; i < N; i++) M.push({ x: Math.random(), y: Math.random(), s: Math.random() < .2 ? 2 : 1, c: ['#ff3ea5', '#2de2e6', '#ffd23f', '#f6e9ff'][i % 4], v: .0003 + Math.random() * .0008, p: Math.random() * 6 });
+    const f = (t) => { g.clearRect(0, 0, W, H); M.forEach(m => { m.y -= m.v; if (m.y < -.02) m.y = 1.02; const a = .35 + .65 * Math.abs(Math.sin(t / 900 + m.p)); g.globalAlpha = a; g.fillStyle = m.c; g.fillRect(Math.round(m.x * W + Math.sin(t / 2000 + m.p) * 3), Math.round(m.y * H), m.s, m.s); }); g.globalAlpha = 1; if (!reduce) requestAnimationFrame(f); };
+    requestAnimationFrame(f);
+  })();
+
+  /* clock in the hero HUD */
+  const hc = document.getElementById('hiclock'); const tickC = () => { const d = new Date(); hc.textContent = '' + String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); }; tickC(); setInterval(tickC, 20000);
+  const track = document.getElementById('track'); track.innerHTML += track.innerHTML;
+
+  /* services: power-ups + inventory + bag */
+  const GROUPS = [
+    { g: 'start', t: 'Plan & Permits', en: 'PLAN · PERMITS', d: 'Before you open: where to open, and your commercial registration and hospitality licence files.' },
+    { g: 'brand', t: 'Branding', en: 'BRAND', d: 'Your whole look: logo, menus and print, and company profile.' },
+    { g: 'market', t: 'Content & Marketing', en: 'CONTENT · ADS', d: 'Get seen, booked and bought from: Reels, ads and monthly content.' },
+    { g: 'digital', t: 'Digital & AI', en: 'DIGITAL · AI', d: 'Your website and AI assistant working for you around the clock.' }];
+  const LIB = [
+    { g: 'market', s: 'cam', t: 'Editing & Reels', d: 'Your phone clips become Reels cut to the beat, with Arabic and English subtitles. In 2 days.' },
+    { g: 'market', s: 'ads', t: 'Video Ads', d: 'Snapchat, TikTok and Instagram ads that hook from the first second, sized for each platform. In 3 days.' },
+    { g: 'brand', s: 'logo', t: 'Logo & Identity', d: 'A logo in Arabic and English, colours, type, a brand guide and all files. About 7 days.' },
+    { g: 'brand', s: 'menu', t: 'Menus & Print', d: 'A menu or price list, cards and flyers ready to print. In 3 days.' },
+    { g: 'brand', s: 'deck', t: 'Company Profile', d: 'A profile in Arabic and English and a sales deck. In 4 days.' },
+    { g: 'start', s: 'key', t: 'Hospitality Unit Licence', d: 'We prepare your chalet or apartment licence file under the new regulation and guide you until it’s issued.' , _old: '' },
+    { g: 'market', s: 'home', t: 'Booking-App Listing', d: 'Your chalet or apartment listed with description, prices, photos and calendar. In 2 days.' },
+    { g: 'start', s: 'doc', t: 'Commercial Registration', d: 'We prepare the details and pick the right activity; you submit from your account on the Saudi Business Center with us alongside.', _old: '' },
+    { g: 'digital', s: 'chat', t: 'AI Customer Assistant', d: 'Answers on WhatsApp, Instagram and your website chat in your dialect, and hands you the important cases. Live in a week.' },
+    { g: 'digital', s: 'web', t: 'Websites', d: 'A fast Arabic and English website with a WhatsApp booking button. In 5 days.' },
+    { g: 'market', s: 'pen', t: 'Social Media Content', d: 'A full month of posts and captions, a posting schedule, and replies to Google reviews.' },
+    { g: 'start', s: 'pin', t: 'Location Study', d: '2 to 4 neighbourhoods compared, competitors, break-even, and a PDF report with a clear recommendation.' }
+  ];
+  const FREE = [
+    { s: 'pin', t: 'Quick Location Study', d: 'Two neighbourhoods compared for your business, competitor count and ratings, and a first recommendation on one page.', when: 'within 48 hours' },
+    { s: 'star', t: 'Brand & Profile Check', d: 'A review of your Instagram and Google Maps, notes on your logo and colours, and 5 fixes you can make yourself.', when: 'within 48 hours' },
+    { s: 'bot', t: 'Try Your AI Assistant', d: 'A trial built on your business information. Ask it questions as a customer before you sign up.', when: 'within 3 days' }
+  ];
+  const chips = [], picked = [];
+  const bag = document.getElementById('bag'), bagn = document.getElementById('bagn'), score = document.getElementById('score'), go = document.getElementById('go'), detail = document.getElementById('detail');
+  const pad = n => String(n).padStart(2, '0');
+  const render = () => {
+    bag.textContent = '';
+    if (!picked.length) { const e = document.createElement('li'); e.className = 'empty'; e.style.animation = 'none'; e.textContent = 'Nothing added yet. Tap any service.'; bag.append(e); }
+    picked.forEach(n => { const li = document.createElement('li'); li.append(sprite(LIB[n].s)); const s = document.createElement('span'); s.textContent = LIB[n].t; li.append(s); bag.append(li); });
+    bagn.textContent = '(' + picked.length + ')'; score.textContent = '(' + picked.length + ')';
+    go.setAttribute('aria-disabled', String(!picked.length));
+    const orderText = 'Hi Vigil, I’d like these services:\n' + picked.map(n => '• ' + LIB[n].t).join('\n');
+    if (WA && picked.length) { go.href = waLink(orderText); go.target = '_blank'; go.rel = 'noopener'; go.textContent = 'Send order on WhatsApp →'; } else { go.href = '#save'; go.removeAttribute('target'); go.textContent = 'Send order →'; }
+    document.getElementById('cServices').value = picked.map(n => LIB[n].t).join(', ');
+  };
+  const toggle = (n) => { const b = chips[n], on = b.getAttribute('aria-pressed') !== 'true'; b.setAttribute('aria-pressed', String(on)); const k = picked.indexOf(n); if (on && k < 0) picked.push(n); if (!on && k >= 0) picked.splice(k, 1);
+    if (b.dataset.free) b.querySelector('b').textContent = on ? '✓ Added to your order' : 'Add to order +';
+    detail.innerHTML = '<b></b><span></span>'; detail.querySelector('b').textContent = LIB[n].t; detail.querySelector('span').textContent = LIB[n].d; render(); };
+  const groups = document.getElementById('groups');
+  GROUPS.forEach(gr => { const box = document.createElement('div'); box.className = 'box grp'; box.innerHTML = '<h3><span></span><small></small></h3><div class="slots"></div>'; box.querySelector('span').textContent = gr.t; box.querySelector('small').textContent = gr.en; const gd = document.createElement('p'); gd.className = 'gd'; gd.textContent = gr.d; box.querySelector('h3').after(gd);
+    LIB.forEach((o, n) => { if (o.g !== gr.g) return; const b = document.createElement('button'); b.type = 'button'; b.className = 'slot'; b.setAttribute('aria-pressed', 'false'); b.append(sprite(o.s)); const s = document.createElement('span'); s.textContent = o.t; b.append(s); b.addEventListener('click', () => toggle(n)); chips[n] = b; box.querySelector('.slots').append(b); });
+    groups.append(box); });
+  const ups = document.getElementById('ups');
+  FREE.forEach(o => { const n = LIB.push({ g: 'free', s: o.s, t: o.t + ' (free)', d: o.d }) - 1; const c = document.createElement('article'); c.className = 'box up';
+    const sp = sprite(o.s); sp.className = 'sp'; c.append(sp);
+    const h = document.createElement('h3'); h.textContent = o.t; const p = document.createElement('p'); p.textContent = o.d; const meta = document.createElement('div'); meta.className = 'meta'; meta.innerHTML = '<span>Free · ' + o.when + '</span>';
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'btn'; b.dataset.free = '1'; b.setAttribute('aria-pressed', 'false'); b.innerHTML = '<b>Add to order +</b>'; b.addEventListener('click', () => toggle(n)); chips[n] = b;
+    c.append(h, p, meta, b); ups.append(c); });
+  go.addEventListener('click', e => { if (!picked.length) e.preventDefault(); });
+  const BUNDLES = [
+    { t: 'Chalet Bundle', for: 'For chalet and apartment owners renting by the night under the new regulation.', items: [5, 6, 0, 8] },
+    { t: 'Opening Bundle', for: 'For a new business (café, shop, clinic) before it opens.', items: [11, 2, 3, 0] },
+    { t: 'Monthly Growth Bundle', for: 'For a running business that wants more customers every month.', items: [10, 0, 8, 1] }
+  ];
+  const bgrid = document.getElementById('bundleGrid');
+  BUNDLES.forEach(bd => { const c = document.createElement('article'); c.className = 'box bundle'; const h = document.createElement('h3'); h.textContent = bd.t; const p = document.createElement('p'); p.className = 'for'; p.textContent = bd.for; const ul = document.createElement('ul');
+    bd.items.forEach(n => { const li = document.createElement('li'); li.append(sprite(LIB[n].s)); const sp = document.createElement('span'); sp.textContent = LIB[n].t; li.append(sp); ul.append(li); });
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'btn'; b.textContent = 'Add bundle to order +';
+    b.addEventListener('click', () => { bd.items.forEach(n => { if (chips[n].getAttribute('aria-pressed') !== 'true') toggle(n); }); b.textContent = '✓ Added to your order'; document.getElementById('inventory').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }); });
+    c.append(h, p, ul, b); bgrid.append(c); });
+  render();
+
+  /* quest progress + pixel stamp */
+  const stamp = document.getElementById('stamp'), sg = stamp.getContext('2d');
+  (() => { const R = 13, cx = 14, cy = 14; sg.fillStyle = '#ff3ea5'; for (let y = 0; y < 28; y++) for (let x = 0; x < 28; x++) { const d = Math.hypot(x + .5 - cx, y + .5 - cy); if ((d <= R && d > R - 2) || (d <= R - 4 && d > R - 5)) sg.fillRect(x, y, 1, 1); }
+    sg.font = '400 5px "Press Start 2P", monospace'; sg.textAlign = 'center'; sg.textBaseline = 'middle'; sg.fillText('OK', 14, 15); })();
+  const xp = document.getElementById('xp');
+  if ('IntersectionObserver' in window) { const io = new IntersectionObserver(es => { if (!es[0].isIntersecting) return; xp.style.width = '100%'; if (!reduce) { stamp.classList.remove('thump'); void stamp.offsetWidth; stamp.classList.add('thump'); } io.disconnect(); }, { threshold: .5 }); io.observe(document.getElementById('quest')); } else xp.style.width = '100%';
+
+  /* NPC dialog with typewriter replies */
+  const DATA = {
+    clinic: { tag: 'Clinic assistant', name: 'Smile Dental Clinic', asks: [['How much is a cleaning?', 'A cleaning is SAR 250 including the check-up. Tomorrow I have 4:00, 5:30 or 7:00 pm. Which suits you?'], ['Do you take Bupa?', 'Yes, we accept Bupa and Tawuniya. Bring your card and we’ll handle the rest.'], ['How much is whitening?', 'Whitening is SAR 900 and takes about an hour. Shall I book you this week?', 'ltr']] },
+    chalet: { tag: 'Chalet assistant', name: 'Palm Chalet', asks: [['Is it free on Thursday?', 'Yes. SAR 900 a night with a private pool. Shall I book it?'], ['Anything for kids?', 'Yes, a small playground, a bouncy castle, and a kids’ section in the pool.'], ['Is it licensed?', 'Yes, it holds a private tourist hospitality permit from the Ministry of Tourism.', 'ltr']] },
+    cafe: { tag: 'Café assistant', name: 'Dallah House Café', asks: [['A table for 6 tonight?', 'I have a table for 6 indoors at 9:30 tonight. Shall I book it in your name?'], ['Do you serve Saudi coffee?', 'Of course. Saudi coffee with cardamom and saffron, SAR 35 a dallah, served with dates.'], ['When do you close?', 'We’re open until 2 AM every night, and 3 AM on weekends.', 'ltr']] }
+  };
+  const log2 = document.getElementById('log2'), choices = document.getElementById('choices'), npcName = document.getElementById('npcName'); let gen = 0, busy = false;
+  const say = (text, cls, dir, type) => { const el = document.createElement('div'); el.className = 'say ' + cls; if (dir) el.dir = dir; log2.append(el); log2.scrollTop = log2.scrollHeight;
+    if (!type || reduce) { el.textContent = text; return Promise.resolve(); }
+    const my = gen; const t = document.createTextNode(''); const cur = document.createElement('i'); cur.className = 'cur'; el.append(t, cur);
+    return new Promise(res => { let i = 0; const step = () => { if (my !== gen) return res(); i += 2; t.textContent = text.slice(0, i); log2.scrollTop = log2.scrollHeight; if (i < text.length) setTimeout(step, 22); else { cur.remove(); res(); } }; step(); }); };
+  const load = (k) => { gen++; busy = false; const d = DATA[k]; npcName.textContent = d.tag; log2.textContent = ''; choices.textContent = '';
+    say('Hi! I’m the assistant for ' + d.name + '. Ask me anything, any time.', 'bot', null, true);
+    d.asks.forEach(([q, a, dir]) => { const b = document.createElement('button'); b.type = 'button'; b.textContent = q; if (dir) b.dir = dir;
+      b.addEventListener('click', async () => { if (busy) return; busy = true; b.disabled = true; const my = gen; await say(q, 'me', dir); if (my !== gen) return; await say(a, 'bot', dir, true); if (my === gen) busy = false; });
+      choices.append(b); }); };
+  document.querySelectorAll('.worlds button').forEach(b => b.addEventListener('click', () => { document.querySelectorAll('.worlds button').forEach(x => x.setAttribute('aria-pressed', String(x === b))); load(b.dataset.biz); }));
+  load('clinic');
+
+  /* identity: the Vigil mark in pixels that scatter from the cursor */
+  (() => {
+    const cv = document.getElementById('dots'), g = cv.getContext('2d'); let W, H, P = [], m = { x: -99, y: -99 }, run = false; const S = 3;
+    const build = () => { const r = cv.getBoundingClientRect(); W = cv.width = Math.ceil(r.width / S); H = cv.height = Math.ceil(r.height / S);
+      const rows = SPR.mark, sc = Math.floor(Math.min(W, H) * .7 / 12), ox = Math.floor((W - 12 * sc) / 2), oy = Math.floor((H - 12 * sc) / 2); P = [];
+      rows.forEach((row, y) => [...row].forEach((ch, x) => { if (!C[ch]) return; for (let yy = 0; yy < sc; yy++) for (let xx = 0; xx < sc; xx++) { if ((xx + yy) % 2) continue; const tx = ox + x * sc + xx, ty = oy + y * sc + yy; P.push({ tx, ty, x: Math.random() * W, y: Math.random() * H, vx: 0, vy: 0, c: C[ch] }); } })); };
+    const frame = () => { if (!run) return; requestAnimationFrame(frame); g.clearRect(0, 0, W, H);
+      for (const p of P) { const dx = p.x - m.x, dy = p.y - m.y, d2 = dx * dx + dy * dy; if (d2 < 260) { const d = Math.sqrt(d2) || 1, f = (260 - d2) / 260 * 1.6; p.vx += dx / d * f; p.vy += dy / d * f; }
+        p.vx += (p.tx - p.x) * .05; p.vy += (p.ty - p.y) * .05; p.vx *= .8; p.vy *= .8; p.x += p.vx; p.y += p.vy; g.fillStyle = p.c; g.fillRect(Math.round(p.x), Math.round(p.y), 1, 1); } };
+    cv.addEventListener('pointermove', e => { const r = cv.getBoundingClientRect(); m.x = (e.clientX - r.left) / S; m.y = (e.clientY - r.top) / S; });
+    cv.addEventListener('pointerleave', () => { m.x = m.y = -99; });
+    build(); addEventListener('resize', build);
+    if (reduce) { P.forEach(p => { p.x = p.tx; p.y = p.ty; }); run = true; frame(); run = false; return; }
+    new IntersectionObserver(es => { const v = es[0].isIntersecting; if (v && !run) { run = true; frame(); } else if (!v) run = false; }).observe(cv);
+  })();
+
+  /* save screen */
+  const form = document.getElementById('ctaForm'), out = document.getElementById('out'), outText = document.getElementById('outText'), outNote = document.getElementById('outNote'), copyBtn = document.getElementById('copy');
+  form.addEventListener('submit', e => { e.preventDefault(); const v = id => document.getElementById(id).value.trim(); out.hidden = false;
+    if (!v('cName') || !v('cPhone')) { (v('cName') ? document.getElementById('cPhone') : document.getElementById('cName')).focus(); outNote.textContent = 'Add your name and phone number so we can reply.'; outText.textContent = ''; copyBtn.hidden = true; return; }
+    outText.textContent = ['Hi Vigil, I’d like a consultation.', '', 'Name: ' + v('cName'), 'Phone: ' + v('cPhone'), 'Services: ' + (v('cServices') || 'Not chosen yet'), '', v('cMsg')].join('\n').trim();
+    outNote.textContent = WA ? 'Your message is ready. Tap “Open WhatsApp” to send it, or copy it.' : 'Your message is ready. Copy it and send it to us on WhatsApp.'; copyBtn.hidden = false; copyBtn.textContent = 'Copy message';
+    const wa = document.getElementById('waOpen'); if (WA) { wa.href = waLink(outText.textContent); wa.hidden = false; } });
+  copyBtn.addEventListener('click', () => { const sel = () => { const r = document.createRange(); r.selectNodeContents(outText); const s = getSelection(); s.removeAllRanges(); s.addRange(r); copyBtn.textContent = 'Text selected, copy it'; };
+    if (navigator.clipboard) navigator.clipboard.writeText(outText.textContent).then(() => { copyBtn.textContent = 'Copied'; }, sel); else sel(); });
+
+  /* ---------- the pixel synthwave studio (three.js r128) ---------- */
+  (() => {
+    const box3 = document.getElementById('scene'), canvas = document.getElementById('room'), hots = document.getElementById('hots');
+    if (!window.THREE) { box3.classList.add('nogl'); return; }
+    let R; try { R = new THREE.WebGLRenderer({ canvas, antialias: false }); } catch (e) { box3.classList.add('nogl'); return; }
+    R.setPixelRatio(1); R.outputEncoding = THREE.sRGBEncoding;
+    const S = new THREE.Scene(); S.background = new THREE.Color(0x1a0838); S.fog = new THREE.Fog(0x3a1060, 40, 190);
+    const cam = new THREE.PerspectiveCamera(50, 1, .3, 800);
+    const tex = (w, h, fn) => { const c = document.createElement('canvas'); c.width = w; c.height = h; const g = c.getContext('2d'); fn(g, w, h); const t = new THREE.CanvasTexture(c); t.magFilter = THREE.NearestFilter; t.minFilter = THREE.NearestFilter; t.encoding = THREE.sRGBEncoding; return { t, g, c }; };
+    const M = (color, extra = {}) => new THREE.MeshStandardMaterial(Object.assign({ color, roughness: .9, metalness: 0, flatShading: true }, extra));
+    const add = (geo, mat, x, y, z, p = S) => { const o = new THREE.Mesh(geo, mat); o.position.set(x, y, z); p.add(o); return o; };
+    const box = (w, h, d, mat, x, y, z, p) => add(new THREE.BoxGeometry(w, h, d), mat, x, y, z, p);
+    const neon = (c) => new THREE.MeshBasicMaterial({ color: c, toneMapped: false });
+
+    /* sky: gradient dome, striped sun, stars */
+    const sky = tex(4, 256, (g, w, h) => { const gr = g.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, '#0b0420'); gr.addColorStop(.32, '#2a0b55'); gr.addColorStop(.46, '#7a1f86'); gr.addColorStop(.52, '#ff3ea5'); gr.addColorStop(.56, '#ff8a3d'); gr.addColorStop(.6, '#2a0b40'); gr.addColorStop(1, '#0b0420'); g.fillStyle = gr; g.fillRect(0, 0, w, h); });
+    const dome = new THREE.Mesh(new THREE.SphereGeometry(500, 24, 12), new THREE.MeshBasicMaterial({ map: sky.t, side: THREE.BackSide, fog: false })); dome.position.y = -30; S.add(dome);
+    const sunT = tex(128, 128, (g, w, h) => { const gr = g.createLinearGradient(0, 0, 0, h); gr.addColorStop(0, '#ffe45a'); gr.addColorStop(.55, '#ff8a3d'); gr.addColorStop(1, '#ff2f9a'); g.fillStyle = gr; g.beginPath(); g.arc(64, 64, 62, 0, 7); g.fill(); g.globalCompositeOperation = 'destination-out'; for (let i = 0; i < 7; i++) { const y = 70 + i * 8 + i * i * .4, th = 1 + i * .9; g.fillRect(0, y, w, th); } });
+    const sun = add(new THREE.PlaneGeometry(90, 90), new THREE.MeshBasicMaterial({ map: sunT.t, transparent: true, fog: false, toneMapped: false }), 0, 6, -230);
+    for (let i = 0; i < 140; i++) { const s = add(new THREE.PlaneGeometry(1.2, 1.2), neon(i % 7 ? 0xf6e9ff : 0x2de2e6), (Math.random() - .5) * 700, 60 + Math.random() * 220, -300 - Math.random() * 100); s.material.fog = false; }
+    /* neon grid ground that scrolls toward the window */
+    const gridT = tex(32, 32, (g, w, h) => { g.fillStyle = '#16052e'; g.fillRect(0, 0, w, h); g.fillStyle = '#ff3ea5'; g.fillRect(0, 0, w, 2); g.fillRect(0, 0, 2, h); });
+    gridT.t.wrapS = gridT.t.wrapT = THREE.RepeatWrapping; gridT.t.repeat.set(80, 80);
+    const ground = add(new THREE.PlaneGeometry(800, 800), new THREE.MeshBasicMaterial({ map: gridT.t }), 0, -22, -200); ground.rotation.x = -Math.PI / 2;
+    /* Riyadh skyline: silhouettes with neon edges */
+    const silh = new THREE.MeshBasicMaterial({ color: 0x1b0838 });
+    const winT = tex(16, 64, (g, w, h) => { g.fillStyle = '#1b0838'; g.fillRect(0, 0, w, h); for (let y = 2; y < h; y += 4) for (let x = 2; x < w; x += 4) if (Math.random() < .35) { g.fillStyle = Math.random() < .5 ? '#ff3ea5' : (Math.random() < .5 ? '#2de2e6' : '#ffd23f'); g.fillRect(x, y, 1, 2); } });
+    winT.t.wrapS = winT.t.wrapT = THREE.RepeatWrapping;
+    const towerMat = new THREE.MeshBasicMaterial({ map: winT.t });
+    for (let i = 0; i < 70; i++) { const x = (Math.random() - .5) * 220, z = -90 - Math.random() * 90, w = 3 + Math.random() * 7, h = 6 + Math.random() * (Math.random() < .15 ? 30 : 14); box(w, h, w, Math.random() < .5 ? towerMat : silh, x, -22 + h / 2, z); }
+    const edge = (pts, color, r = .45) => add(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 40, r, 4), neon(color), 0, 0, 0);
+    // Kingdom Centre
+    const kc = new THREE.Group(); kc.position.set(26, -22, -120); S.add(kc);
+    const sh = new THREE.Shape(), KH = 72, B = 9, T = 5, inr = 3.8, arch = 46;
+    sh.moveTo(-B, 0); sh.lineTo(B, 0); sh.quadraticCurveTo(B * .95, KH * .55, T, KH); sh.lineTo(inr, KH); sh.quadraticCurveTo(inr * .55, arch - 1, 0, arch); sh.quadraticCurveTo(-inr * .55, arch - 1, -inr, KH); sh.lineTo(-T, KH); sh.quadraticCurveTo(-B * .95, KH * .55, -B, 0);
+    const kg = new THREE.ExtrudeGeometry(sh, { depth: 6, bevelEnabled: false }); kg.translate(0, 0, -3); add(kg, silh, 0, 0, 0, kc);
+    const ap = []; for (let i = 0; i <= 20; i++) { const u = i / 20 * 2 - 1; ap.push(new THREE.Vector3(26 + u * inr, -22 + arch + (KH - arch) * Math.pow(Math.abs(u), 1.6), -116.8)); } edge(ap, 0x2de2e6, .5);
+    box(7, 1, 2, neon(0x2de2e6), 26, -22 + 62, -116.8);
+    // Al Faisaliah
+    const fz = add(new THREE.ConeGeometry(7, 60, 4), silh, -8, -22 + 30, -140); fz.rotation.y = Math.PI / 4;
+    add(new THREE.SphereGeometry(2.6, 10, 8), neon(0xffd23f), -8, -22 + 44, -139);
+    // KAFD towers
+    [[-34, 84, -125], [-26, 60, -132], [-42, 52, -118], [-20, 44, -145], [-48, 66, -150]].forEach(([x, h, z], i) => { box(i ? 6 : 8, h, i ? 6 : 8, i % 2 ? towerMat : silh, x, -22 + h / 2, z); });
+    box(8.6, .8, 8.6, neon(0xff3ea5), -34, -22 + 84, -125); for (let i = 0; i < 4; i++) box(.6, 10, .6, neon(0xff3ea5), -34 + (i % 2 ? 4 : -4), -22 + 89, -125 + (i < 2 ? 4 : -4));
+
+    /* the room: window wall at z = -4 */
+    const fl = tex(32, 32, (g, w, h) => { g.fillStyle = '#21103f'; g.fillRect(0, 0, w, h); g.fillStyle = '#3d1c6e'; g.fillRect(0, 0, w, 1); g.fillRect(0, 0, 1, h); });
+    fl.t.wrapS = fl.t.wrapT = THREE.RepeatWrapping; fl.t.repeat.set(12, 11);
+    const floor = add(new THREE.PlaneGeometry(12, 11), M(0xffffff, { map: fl.t }), 0, 0, 1.5); floor.rotation.x = -Math.PI / 2;
+    const wallM = M(0x1d0b3a);
+    const lw = add(new THREE.PlaneGeometry(11, 7), wallM, -6, 3.5, 1.5); lw.rotation.y = Math.PI / 2;
+    const rw = add(new THREE.PlaneGeometry(11, 7), wallM, 6, 3.5, 1.5); rw.rotation.y = -Math.PI / 2;
+    const ce = add(new THREE.PlaneGeometry(12, 11), M(0x120624), 0, 7, 1.5); ce.rotation.x = Math.PI / 2;
+    const frame = M(0x0e0620);
+    box(12, .3, .3, frame, 0, .15, -4); box(12, .4, .3, frame, 0, 6.85, -4); for (let i = -2; i <= 2; i++) box(.18, 7, .2, frame, i * 3, 3.5, -4); box(12, .12, .15, frame, 0, 4.6, -4);
+    box(12, .08, .08, neon(0xff3ea5), 0, 6.62, -3.85); box(.08, .08, 11, neon(0x2de2e6), -5.92, 6.9, 1.5); box(.08, .08, 11, neon(0x2de2e6), 5.92, 6.9, 1.5);
+    // rug
+    const rug = add(new THREE.PlaneGeometry(5, 3.2), M(0x6b1b74), 1.6, .01, -1); rug.rotation.x = -Math.PI / 2;
+    // desk + monitors facing the camera
+    const desk = new THREE.Group(); desk.position.set(1.6, 0, -2); S.add(desk);
+    box(3.4, .1, 1.1, M(0x3b1f6e), 0, 1, 0, desk); [[-1.6, -.45], [1.6, -.45], [-1.6, .45], [1.6, .45]].forEach(([x, z]) => box(.08, 1, .08, frame, x, .5, z, desk));
+    const screens = [];
+    const drawScreen = (g, w, h, t, k) => { g.fillStyle = '#0e0620'; g.fillRect(0, 0, w, h); const gr = g.createLinearGradient(0, 0, 0, h * .55); gr.addColorStop(0, '#2a0b55'); gr.addColorStop(1, '#ff3ea5'); g.fillStyle = gr; g.fillRect(2, 2, w - 4, h * .55);
+      g.fillStyle = '#ffd23f'; g.beginPath(); g.arc(w / 2 + Math.sin(t + k) * 6, h * .48, 7, Math.PI, 0); g.fill();
+      for (let r = 0; r < 3; r++) { let x = 2, i = 0; while (x < w - 2) { const cw = 6 + ((r * 7 + i * 5 + k * 3) % 12); g.fillStyle = (i + r) % 3 ? '#3b1f6e' : (r ? '#2de2e6' : '#ff3ea5'); g.fillRect(x, h * .6 + r * 5, Math.min(cw, w - 2 - x), 4); x += cw + 1; i++; } }
+      g.fillStyle = '#f6e9ff'; g.fillRect(2 + ((t * 10 + k * 20) % (w - 4)), h * .58, 1, h * .4); };
+    [[-1.1, .25], [0, 0], [1.1, -.25]].forEach(([x, ry], k) => { const m = new THREE.Group(); m.position.set(x, 1.62, -.3); m.rotation.y = ry; desk.add(m); box(1.05, .64, .06, frame, 0, 0, 0, m);
+      const st = tex(64, 40, (g) => drawScreen(g, 64, 40, 0, k)); screens.push({ st, k }); add(new THREE.PlaneGeometry(.96, .56), new THREE.MeshBasicMaterial({ map: st.t, toneMapped: false }), 0, 0, .07, m); box(.06, .5, .06, frame, 0, -.5, -.05, m); });
+    const paper = add(new THREE.PlaneGeometry(.4, .52), M(0xf6e9ff), -1.1, 1.06, .2, desk); paper.rotation.x = -Math.PI / 2; paper.rotation.z = -.2;
+    add(new THREE.CircleGeometry(.09, 8), neon(0xff3ea5), -1.02, 1.065, .32, desk).rotation.x = -Math.PI / 2;
+    const ph = add(new THREE.PlaneGeometry(.2, .38), neon(0x2de2e6), 1.2, 1.065, .25, desk); ph.rotation.x = -Math.PI / 2; ph.rotation.z = .4;
+    const chair = new THREE.Group(); chair.position.set(1.5, 0, -.7); S.add(chair); box(.6, .1, .6, M(0x2a1650), 0, .6, 0, chair); box(.6, .8, .1, M(0x2a1650), 0, 1.05, .3, chair); box(.08, .55, .08, frame, 0, .3, 0, chair);
+    // cinema camera on a tripod
+    const rig = new THREE.Group(); rig.position.set(-3, 0, .8); rig.rotation.y = .9; S.add(rig);
+    for (let i = 0; i < 3; i++) { const a = i / 3 * Math.PI * 2; const l = box(.05, 1.5, .05, frame, Math.cos(a) * .3, .7, Math.sin(a) * .3, rig); l.rotation.z = Math.cos(a) * .22; l.rotation.x = -Math.sin(a) * .22; }
+    box(.34, .32, .55, M(0x2a1650), 0, 1.6, 0, rig); const lens = add(new THREE.CylinderGeometry(.12, .14, .36, 8), M(0x0e0620), 0, 1.6, .44, rig); lens.rotation.x = Math.PI / 2;
+    const rec = add(new THREE.BoxGeometry(.06, .06, .06), neon(0xff2244), .12, 1.8, .2, rig);
+    // softbox
+    const sb = new THREE.Group(); sb.position.set(4.6, 0, -1.4); sb.rotation.y = -.8; S.add(sb); box(.05, 2.4, .05, frame, 0, 1.2, 0, sb); box(.9, .9, .1, neon(0xc8f6ff), 0, 2.55, .2, sb); box(1, 1, .3, frame, 0, 2.55, 0, sb);
+    // brand poster on the right wall + map board on the left wall
+    const posterT = tex(24, 32, (g) => { g.fillStyle = '#ff3ea5'; g.fillRect(0, 0, 24, 32); g.fillStyle = '#0e0620'; g.fillRect(1, 1, 22, 30); const rows = SPR.mark; rows.forEach((r, y) => [...r].forEach((ch, x) => { if (C[ch]) { g.fillStyle = C[ch]; g.fillRect(6 + x, 8 + y, 1, 1); } })); });
+    const poster = add(new THREE.PlaneGeometry(1.6, 2.1), new THREE.MeshBasicMaterial({ map: posterT.t, toneMapped: false }), 5.95, 3.3, -1.2); poster.rotation.y = -Math.PI / 2;
+    const mapT = tex(32, 24, (g) => { g.fillStyle = '#f6e9ff'; g.fillRect(0, 0, 32, 24); g.fillStyle = '#c9b5ee'; for (let i = 0; i < 8; i++) { g.fillRect(Math.random() * 32 | 0, 0, 1, 24); g.fillRect(0, Math.random() * 24 | 0, 32, 1); } [[8, 8, '#0e0620'], [20, 12, '#ff3ea5'], [14, 18, '#0e0620']].forEach(([x, y, c]) => { g.fillStyle = c; g.fillRect(x - 1, y - 1, 3, 3); }); });
+    const map = add(new THREE.PlaneGeometry(2, 1.5), new THREE.MeshBasicMaterial({ map: mapT.t }), -5.95, 3.2, -1.4); map.rotation.y = Math.PI / 2;
+    // plant + floating orb lamp (ethereal)
+    add(new THREE.CylinderGeometry(.3, .24, .5, 6), M(0x3b1f6e), -4.8, .25, -3.2); [[0, 1, 0], [.25, .8, .15], [-.2, .85, -.1], [.1, 1.25, -.15]].forEach(([x, y, z]) => add(new THREE.IcosahedronGeometry(.32, 0), M(0x1fa38a), -4.8 + x, y, -3.2 + z));
+    const orb = add(new THREE.IcosahedronGeometry(.32, 1), neon(0xffd6f2), -1.4, 5, -1.6); const orbL = new THREE.PointLight(0xff8ad8, 2.2, 9, 2); orbL.position.copy(orb.position); S.add(orbL);
+
+    /* light: sunset from the window, neon fills */
+    S.add(new THREE.AmbientLight(0x5a3a9a, .7)); S.add(new THREE.HemisphereLight(0x9b6bff, 0x1a0b2e, .55));
+    const sunL = new THREE.DirectionalLight(0xff8a5a, 1.3); sunL.position.set(0, 4, -20); S.add(sunL);
+    const pinkL = new THREE.PointLight(0xff3ea5, 2.6, 10, 2); pinkL.position.set(0, 6, -3.2); S.add(pinkL);
+    const cyanL = new THREE.PointLight(0x2de2e6, 2, 8, 2); cyanL.position.set(4.2, 2.6, -1); S.add(cyanL);
+
+    /* floating motes inside the room */
+    const N = 260, pos = new Float32Array(N * 3), col = new Float32Array(N * 3), pal = [[1, .24, .65], [.18, .89, .9], [1, .82, .25], [.96, .91, 1]];
+    for (let i = 0; i < N; i++) { pos[i * 3] = (Math.random() - .5) * 11; pos[i * 3 + 1] = Math.random() * 6.5; pos[i * 3 + 2] = -3.8 + Math.random() * 9; const p = pal[i % 4]; col.set(p, i * 3); }
+    const mg = new THREE.BufferGeometry(); mg.setAttribute('position', new THREE.BufferAttribute(pos, 3)); mg.setAttribute('color', new THREE.BufferAttribute(col, 3));
+    const motes = new THREE.Points(mg, new THREE.PointsMaterial({ size: .07, vertexColors: true, transparent: true, opacity: .85, depthWrite: false, blending: THREE.AdditiveBlending })); S.add(motes);
+
+    /* hotspots */
+    const HOT = [
+      { p: [5.9, 4.5, -1.2], t: 'Branding', n: 2 }, { p: [-3, 2.1, .8], t: 'Filming & editing', n: 0 }, { p: [1.6, 2.25, -2.2], t: 'Ads & websites', n: 1 },
+      { p: [.5, 1.2, -1.8], t: 'Licences', id: 'quest' }, { p: [2.8, 1.2, -1.75], t: 'AI Assistant', id: 'npc' }, { p: [-5.9, 4.1, -1.4], t: 'Free location study', id: 'free' }];
+    const jump = id => document.getElementById(id).scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+    HOT.forEach(h => { const b = document.createElement('button'); b.type = 'button'; b.className = 'hot'; b.innerHTML = '<i></i><span></span>'; b.lastChild.textContent = h.t; b.setAttribute('aria-label', h.t);
+      b.addEventListener('click', () => { if (h.n != null) { const c = chips[h.n]; if (c && c.getAttribute('aria-pressed') !== 'true') c.click(); jump('inventory'); } else jump(h.id); }); hots.append(b); h.el = b; h.v = new THREE.Vector3(...h.p); });
+
+    /* size, camera, loop */
+    let W = 0, H = 0, PX = 3, mob = false;
+    const size = () => { W = canvas.clientWidth; H = canvas.clientHeight; mob = W < 760; PX = 2; R.setSize(Math.ceil(W / PX), Math.ceil(H / PX), false); cam.aspect = W / H; cam.fov = mob ? 66 : 50; cam.updateProjectionMatrix(); };
+    size(); addEventListener('resize', size);
+    let mx = 0, my = 0, cx = 0, cy = 0;
+    box3.addEventListener('pointermove', e => { const r = box3.getBoundingClientRect(); mx = (e.clientX - r.left) / r.width - .5; my = (e.clientY - r.top) / r.height - .5; });
+    box3.addEventListener('pointerleave', () => { mx = my = 0; });
+    const look = new THREE.Vector3(.3, 4.6, -12), v = new THREE.Vector3();
+    let run = false, frameN = 0;
+    const tick = (now) => { if (!run) return; requestAnimationFrame(tick); const t = now / 1000; frameN++;
+      if (!reduce) { cx += (mx - cx) * .03; cy += (my - cy) * .03; }
+      const z = mob ? 9.4 : 7.4; cam.position.set(.4 + cx * 1.2 + (reduce ? 0 : Math.sin(t * .1) * .25), 2.5 - cy * .5, z); cam.lookAt(look);
+      if (!reduce) { gridT.t.offset.y = (gridT.t.offset.y + .004) % 1; const a = mg.attributes.position.array; for (let i = 0; i < N; i++) { a[i * 3 + 1] += .004 + (i % 5) * .0008; a[i * 3] += Math.sin(t * .7 + i) * .002; if (a[i * 3 + 1] > 6.6) a[i * 3 + 1] = 0; } mg.attributes.position.needsUpdate = true; orb.position.y = 5 + Math.sin(t * .8) * .2; orbL.position.y = orb.position.y; }
+      rec.material.color.setHex(Math.floor(t * 1.5) % 2 ? 0xff2244 : 0x330011);
+      if (frameN % 6 === 0) screens.forEach(s => { drawScreen(s.st.g, 64, 40, reduce ? 1 : t, s.k); s.st.t.needsUpdate = true; });
+      R.render(S, cam);
+      HOT.forEach(h => { v.copy(h.v).project(cam); const x = (v.x + 1) / 2 * W, y = (1 - v.y) / 2 * H; h.el.style.transform = `translate(${x - 6}px, ${y - 6}px)`; h.el.style.visibility = v.z < 1 && x > 0 && x < W && y > 0 && y < H ? 'visible' : 'hidden'; }); };
+    const start = () => { if (run) return; run = true; requestAnimationFrame(tick); };
+    if ('IntersectionObserver' in window) new IntersectionObserver(es => { es[0].isIntersecting ? start() : (run = false); }).observe(box3); else start();
+    document.addEventListener('visibilitychange', () => { if (document.hidden) run = false; else start(); });
+  })();
+})();
+</script>
