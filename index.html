@@ -337,7 +337,7 @@ section { padding-block: 110px 0 }
 <nav class="nav" aria-label="القائمة">
   <div class="g">
     <a class="logo" href="#top" aria-label="Vigil"><canvas data-sprite="mark" width="12" height="12"></canvas><b>Vigil</b></a>
-    <div class="menu" id="mnav"><a href="#free">مجانًا</a><a href="#bundles">الباقات</a><a href="#inventory">الخدمات</a><a href="#quest">التراخيص</a><a href="#npc">المساعد الذكي</a><a href="#guide">أسئلة</a><a href="#save">تواصل</a></div>
+    <div class="menu" id="mnav"><a href="#free">مجانًا</a><a href="#inventory">الخدمات</a><a href="#quest">التراخيص</a><a href="#npc">المساعد الذكي</a><a href="#guide">أسئلة</a><a href="#save">تواصل</a></div>
     <div class="hud"><button type="button" class="mbtn" id="mbtn" aria-expanded="false" aria-controls="mnav" aria-label="القائمة">≡</button><a class="bag" href="#inventory">طلبك <span id="score">(0)</span></a><a class="lang" href="en.html" lang="en">EN</a></div>
   </div>
 </nav>
@@ -372,12 +372,6 @@ section { padding-block: 110px 0 }
     </div>
   </section>
 
-  <section id="bundles" aria-labelledby="h-bun">
-    <div class="g">
-      <div class="head"><h2 class="pt" id="h-bun" data-size="26" data-msize="19" data-scale="2"><span class="sr">باقات جاهزة</span></h2><p class="lead">اخترنا لك الخدمات اللي تمشي مع بعض. ضيف الباقة بضغطة، وتقدر تشيل أو تزيد بعدها.</p></div>
-      <div class="bundles" id="bundleGrid"></div><p class="swipe">اسحب لتشوف الباقي</p>
-    </div>
-  </section>
 
   <section id="inventory" aria-labelledby="h-inv">
     <div class="g">
@@ -670,17 +664,7 @@ section { padding-block: 110px 0 }
     const b = document.createElement('button'); b.type = 'button'; b.className = 'btn'; b.dataset.free = '1'; b.setAttribute('aria-pressed', 'false'); b.innerHTML = '<b>أضفها لطلبك +</b>'; b.addEventListener('click', () => toggle(n)); chips[n] = b;
     c.append(h, p, meta, b); ups.append(c); });
   go.addEventListener('click', e => { if (!picked.length) e.preventDefault(); });
-  const BUNDLES = [
-    { t: 'باقة الشاليه', for: 'لأصحاب الشاليهات والشقق اللي يبون يأجرون يومي حسب اللائحة الجديدة.', items: [5, 6, 0, 8] },
-    { t: 'باقة الافتتاح', for: 'لمشروع جديد (كافيه، محل، عيادة) قبل ما يفتح أبوابه.', items: [11, 2, 3, 0] },
-    { t: 'باقة النمو الشهرية', for: 'لنشاط شغّال يبي يزيد عملاءه كل شهر.', items: [10, 0, 8, 1] }
-  ];
-  const bgrid = document.getElementById('bundleGrid');
-  BUNDLES.forEach((bd, bi) => { const c = document.createElement('article'); c.className = 'box bundle'; c.dataset.b = bi; const h = document.createElement('h3'); h.textContent = bd.t; const p = document.createElement('p'); p.className = 'for'; p.textContent = bd.for; const ul = document.createElement('ul');
-    bd.items.forEach(n => { const li = document.createElement('li'); li.append(sprite(LIB[n].s)); const sp = document.createElement('span'); sp.textContent = LIB[n].t; li.append(sp); ul.append(li); });
-    const b = document.createElement('button'); b.type = 'button'; b.className = 'btn'; b.textContent = 'أضف الباقة لطلبك +';
-    b.addEventListener('click', () => { bd.items.forEach(n => { if (chips[n].getAttribute('aria-pressed') !== 'true') toggle(n); }); b.textContent = '✓ انضافت لطلبك'; document.getElementById('inventory').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }); });
-    c.append(h, p, ul, b); bgrid.append(c); });
+
   render();
 
   /* quest progress + pixel stamp */

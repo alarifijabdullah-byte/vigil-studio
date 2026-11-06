@@ -337,7 +337,7 @@ section { padding-block: 110px 0 }
 <nav class="nav" aria-label="Menu">
   <div class="g">
     <a class="logo" href="#top" aria-label="Vigil"><canvas data-sprite="mark" width="12" height="12"></canvas><b>Vigil</b></a>
-    <div class="menu" id="mnav"><a href="#free">Free</a><a href="#bundles">Bundles</a><a href="#inventory">Services</a><a href="#quest">Licences</a><a href="#npc">AI Assistant</a><a href="#guide">FAQ</a><a href="#save">Contact</a></div>
+    <div class="menu" id="mnav"><a href="#free">Free</a><a href="#inventory">Services</a><a href="#quest">Licences</a><a href="#npc">AI Assistant</a><a href="#guide">FAQ</a><a href="#save">Contact</a></div>
     <div class="hud"><button type="button" class="mbtn" id="mbtn" aria-expanded="false" aria-controls="mnav" aria-label="Menu">≡</button><a class="bag" href="#inventory">Your order <span id="score">(0)</span></a><a class="lang" href="index.html" lang="ar">عربي</a></div>
   </div>
 </nav>
@@ -372,12 +372,6 @@ section { padding-block: 110px 0 }
     </div>
   </section>
 
-  <section id="bundles" aria-labelledby="h-bun">
-    <div class="g">
-      <div class="head"><h2 class="pt" id="h-bun" data-size="26" data-msize="19" data-scale="2"><span class="sr">Ready bundles</span></h2><p class="lead">Services that work well together. Add a bundle in one tap, then add or remove anything.</p></div>
-      <div class="bundles" id="bundleGrid"></div><p class="swipe">Swipe to see more</p>
-    </div>
-  </section>
 
   <section id="inventory" aria-labelledby="h-inv">
     <div class="g">
@@ -670,17 +664,7 @@ section { padding-block: 110px 0 }
     const b = document.createElement('button'); b.type = 'button'; b.className = 'btn'; b.dataset.free = '1'; b.setAttribute('aria-pressed', 'false'); b.innerHTML = '<b>Add to order +</b>'; b.addEventListener('click', () => toggle(n)); chips[n] = b;
     c.append(h, p, meta, b); ups.append(c); });
   go.addEventListener('click', e => { if (!picked.length) e.preventDefault(); });
-  const BUNDLES = [
-    { t: 'Chalet Bundle', for: 'For chalet and apartment owners renting by the night under the new regulation.', items: [5, 6, 0, 8] },
-    { t: 'Opening Bundle', for: 'For a new business (café, shop, clinic) before it opens.', items: [11, 2, 3, 0] },
-    { t: 'Monthly Growth Bundle', for: 'For a running business that wants more customers every month.', items: [10, 0, 8, 1] }
-  ];
-  const bgrid = document.getElementById('bundleGrid');
-  BUNDLES.forEach((bd, bi) => { const c = document.createElement('article'); c.className = 'box bundle'; c.dataset.b = bi; const h = document.createElement('h3'); h.textContent = bd.t; const p = document.createElement('p'); p.className = 'for'; p.textContent = bd.for; const ul = document.createElement('ul');
-    bd.items.forEach(n => { const li = document.createElement('li'); li.append(sprite(LIB[n].s)); const sp = document.createElement('span'); sp.textContent = LIB[n].t; li.append(sp); ul.append(li); });
-    const b = document.createElement('button'); b.type = 'button'; b.className = 'btn'; b.textContent = 'Add bundle to order +';
-    b.addEventListener('click', () => { bd.items.forEach(n => { if (chips[n].getAttribute('aria-pressed') !== 'true') toggle(n); }); b.textContent = '✓ Added to your order'; document.getElementById('inventory').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }); });
-    c.append(h, p, ul, b); bgrid.append(c); });
+
   render();
 
   /* quest progress + pixel stamp */
