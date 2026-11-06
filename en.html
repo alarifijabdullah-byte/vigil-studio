@@ -251,34 +251,10 @@ section { padding-block: 110px 0 }
 /* mobile menu + WhatsApp button */
 .mbtn { display: none; cursor: pointer; background: var(--plum); color: var(--ink); border: 3px solid var(--line); width: 40px; height: 36px; align-items: center; justify-content: center; font: 400 28px/1 var(--vt); padding: 0 }
 .wafab { display: none; position: fixed; z-index: 70; inset-inline-end: max(14px, env(safe-area-inset-right, 0px)); bottom: calc(14px + env(safe-area-inset-bottom, 0px)); font: 800 15px/1 var(--kufi); text-decoration: none; padding: 13px 16px 11px; background: #25d366; color: #062b14; box-shadow: inset -4px -4px 0 rgba(0,0,0,.2), inset 4px 4px 0 rgba(255,255,255,.35), 4px 4px 0 #05020c }
-.bundle.pick { --b: var(--sun); animation: glow 1.2s steps(2) 3 }
-.bundle.pick::before { content: attr(data-pick); position: absolute; top: -14px; inset-inline-start: 16px; font: 800 12px/1 var(--kufi); background: var(--sun); color: var(--night); padding: 7px 10px 5px }
 .bundle { position: relative }
-@keyframes glow { 50% { box-shadow: 6px 6px 0 #05020c, 0 0 28px var(--sun) } }
 
-/* welcome screen */
-.welcome { position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; padding: 20px; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); background: radial-gradient(60% 50% at 50% 40%, rgba(123,47,247,.45), transparent 70%), rgba(14,6,32,.94); backdrop-filter: blur(6px) }
-.welcome.out { animation: wout .55s steps(6) forwards }
-@keyframes wout { to { opacity: 0; transform: scale(1.06); visibility: hidden } }
-.wbox { width: min(460px, 100%); display: grid; justify-items: center; gap: 12px; text-align: center; padding: 28px 22px 20px; background: var(--deep); border: 4px solid var(--pink); box-shadow: 8px 8px 0 #05020c, 0 0 60px -10px rgba(255,62,165,.5);
-  clip-path: polygon(0 8px, 8px 8px, 8px 0, calc(100% - 8px) 0, calc(100% - 8px) 8px, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 8px calc(100% - 8px), 0 calc(100% - 8px)) }
-#wmark { width: 96px; height: 96px; image-rendering: pixelated }
-.wtag { font: 400 9px/1 var(--px); color: var(--sun); letter-spacing: .1em; direction: ltr }
-.wtype { font: 900 clamp(20px, 5vw, 26px)/1.5 var(--kufi); min-height: 1.5em; background: linear-gradient(180deg, var(--sun), var(--orange, #ff8a3d) 45%, var(--pink)); -webkit-background-clip: text; background-clip: text; color: transparent }
-.wcur { display: inline-block; width: 10px; height: .9em; background: var(--pink); vertical-align: -2px; margin-inline-start: 4px; animation: blink .8s steps(1) infinite }
-.wq { font: 700 16px/1.6 var(--kufi); color: var(--soft) }
-.wopts { display: grid; gap: 8px; width: 100% }
-.wopts button { animation: pop .3s steps(3) both }
-.wopts button:nth-child(2) { animation-delay: .08s } .wopts button:nth-child(3) { animation-delay: .16s } .wopts button:nth-child(4) { animation-delay: .24s }
-.wopts button { all: unset; cursor: pointer; font: 800 15px/1.4 var(--kufi); padding: 13px 14px 11px; background: var(--night); border: 3px solid var(--line); text-align: start; transition: border-color 80ms steps(1), background-color 80ms steps(1) }
-.wopts button::before { content: "▶ "; color: var(--pink) }
-.wopts button:hover, .wopts button:focus-visible { border-color: var(--cyan); background: #1d0e3d }
-.wskip { all: unset; cursor: pointer; font: 600 13px/1 var(--kufi); color: var(--dim); padding: 8px; border-bottom: 2px solid transparent }
-.wskip:hover, .wskip:focus-visible { color: var(--ink); border-color: var(--ink) }
-.toast { position: fixed; z-index: 150; left: 50%; transform: translateX(-50%); bottom: calc(76px + env(safe-area-inset-bottom, 0px)); width: min(520px, calc(100% - 28px)); display: flex; align-items: center; gap: 10px; padding: 12px 12px 10px 14px; background: var(--deep); border: 3px solid var(--sun); box-shadow: 5px 5px 0 #05020c; font: 700 14px/1.6 var(--kufi) }
-.toast span { flex: 1; min-width: 0 }
-.toast button { all: unset; cursor: pointer; font: 800 13px/1 var(--kufi); padding: 9px 11px 7px; background: var(--sun); color: var(--night); white-space: nowrap }
-.toast #toastX { background: transparent; color: var(--dim); font-size: 20px; padding: 4px 6px }
+/* wordless pixel intro */
+.intro { position: fixed; inset: 0; z-index: 200; width: 100%; height: 100%; image-rendering: pixelated; cursor: pointer }
 
 @media (max-width: 900px) {
   .mbtn { display: inline-flex }
@@ -323,7 +299,6 @@ section { padding-block: 110px 0 }
   .guide p { font-size: 14px; padding: 0 14px 14px }
   .save { padding: 18px 16px; gap: 18px }
   .foot { margin-top: 70px; padding-bottom: 90px; font-size: 17px }
-  .toast { bottom: calc(74px + env(safe-area-inset-bottom, 0px)) }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important } html { scroll-behavior: auto } }
 </style>
@@ -341,17 +316,7 @@ section { padding-block: 110px 0 }
 
 <a class="wafab" href="https://wa.me/966501444443?text=Hi%20Vigil%2C%20I%20have%20a%20question%20about%20your%20services" target="_blank" rel="noopener">WhatsApp</a>
 
-<div class="welcome" id="welcome" role="dialog" aria-modal="true" aria-labelledby="wTitle" hidden>
-  <div class="wbox">
-    <canvas id="wmark" width="96" height="96" aria-hidden="true"></canvas>
-    <p class="wtag">VIGIL STUDIO</p>
-    <h2 id="wTitle" class="wtype"><span class="sr">Welcome to Vigil Studio</span><span id="wtyped" aria-hidden="true"></span><i class="wcur" aria-hidden="true"></i></h2>
-    <p class="wq" id="wq">What brings you here today?</p>
-    <div class="wopts" id="wopts"><button type="button" data-w="1">I have a new business</button><button type="button" data-w="0">I have a chalet or apartment</button><button type="button" data-w="2">I run an existing business</button><button type="button" data-w="x">Just looking around</button></div>
-    <button type="button" class="wskip" id="wskip">Skip</button>
-  </div>
-</div>
-<div class="toast" id="toast" role="status" hidden><span id="toastText"></span><button type="button" id="toastGo">Show me</button><button type="button" id="toastX" aria-label="Close">×</button></div>
+<canvas class="intro" id="intro" aria-hidden="true" hidden></canvas>
 
 <main id="top">
   <section class="hero" aria-labelledby="t1" style="padding:0;padding-top:calc(52px + env(safe-area-inset-top, 0px))">
@@ -819,37 +784,57 @@ section { padding-block: 110px 0 }
   mbtn.addEventListener('click', () => { const o = !nav.classList.contains('open'); nav.classList.toggle('open', o); mbtn.setAttribute('aria-expanded', String(o)); });
   document.querySelectorAll('#mnav a').forEach(a => a.addEventListener('click', () => { nav.classList.remove('open'); mbtn.setAttribute('aria-expanded', 'false'); }));
 
-  /* welcome screen: the mark assembles pixel by pixel, a greeting types out, the visitor picks what brought them */
+  /* wordless pixel intro: pixels rain in and build the Vigil mark, it pulses, bursts, and the screen dissolves block by block */
   (() => {
-    const W = document.getElementById('welcome'); let seen = false;
-    try { seen = sessionStorage.getItem('vigil-welcome') === '1'; } catch (e) {}
-    if (seen || location.hash) return;
-    W.hidden = false; document.documentElement.style.overflow = 'hidden';
-    const cv = document.getElementById('wmark'), g = cv.getContext('2d'), rows = SPR.mark, S = 8, px = [];
-    rows.forEach((r, y) => [...r].forEach((ch, x) => { if (C[ch]) px.push([x, y, C[ch]]); }));
-    for (let i = px.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [px[i], px[j]] = [px[j], px[i]]; }
-    let k = 0; const drawN = () => { const n = reduce ? px.length : Math.min(px.length, k += 3); g.clearRect(0, 0, 96, 96); px.slice(0, n).forEach(([x, y, c]) => { g.fillStyle = c; g.fillRect(x * S, y * S, S, S); }); if (n < px.length) setTimeout(drawN, 28); };
-    drawN();
-    const text = "Welcome to Vigil Studio", out = document.getElementById('wtyped'); let i = 0;
-    const type = () => { i += 1; out.textContent = text.slice(0, i); if (i < text.length) setTimeout(type, 55); else setTimeout(() => { W.classList.add('ready'); const b = W.querySelector('.wopts button'); b && b.focus({ preventScroll: true }); }, 250); };
-    setTimeout(type, reduce ? 0 : 500); if (reduce) { out.textContent = text; i = text.length; W.classList.add('ready'); }
-    const close = (choice) => {
-      try { sessionStorage.setItem('vigil-welcome', '1'); } catch (e) {}
-      document.documentElement.style.overflow = '';
-      if (reduce) W.hidden = true; else { W.classList.add('out'); setTimeout(() => { W.hidden = true; }, 600); }
-      if (choice == null || choice === 'x') return;
-      const card = document.querySelector('.bundle[data-b="' + choice + '"]'); if (!card) return;
-      card.classList.add('pick'); card.dataset.pick = "Picked for you";
-      const name = card.querySelector('h3').textContent, toast = document.getElementById('toast');
-      document.getElementById('toastText').textContent = ((n) => 'We picked the ' + n + ' for you. Add it to your order in one tap.')(name);
-      toast.hidden = false;
-      document.getElementById('toastGo').onclick = () => { toast.hidden = true; card.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' }); };
-      document.getElementById('toastX').onclick = () => { toast.hidden = true; };
-      setTimeout(() => { toast.hidden = true; }, 12000);
+    const cv = document.getElementById('intro'); let seen = false;
+    try { seen = sessionStorage.getItem('vigil-intro') === '1'; } catch (e) {}
+    if (seen || reduce || location.hash) return;
+    try { sessionStorage.setItem('vigil-intro', '1'); } catch (e) {}
+    cv.hidden = false; document.documentElement.style.overflow = 'hidden';
+    const g = cv.getContext('2d'); let W, H, B, cols, rows, order, cell, ox, oy;
+    const rowsM = SPR.mark, pts = [];
+    rowsM.forEach((r, y) => [...r].forEach((ch, x) => { if (C[ch] && ch !== 'k') pts.push({ x, y, c: C[ch] }); }));
+    const size = () => {
+      W = cv.width = Math.ceil(innerWidth / 3); H = cv.height = Math.ceil(innerHeight / 3);
+      cell = Math.max(3, Math.floor(Math.min(W, H) * 0.42 / 12)); ox = Math.floor((W - 12 * cell) / 2); oy = Math.floor((H - 12 * cell) / 2);
+      B = Math.max(6, Math.round(Math.min(W, H) / 18)); cols = Math.ceil(W / B); rows = Math.ceil(H / B);
+      const cx = cols / 2, cy = rows / 2; order = [];
+      for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) order.push({ x, y, t: Math.hypot(x - cx, (y - cy) * 1.2) / Math.hypot(cx, cy * 1.2) * 0.75 + Math.random() * 0.25 });
     };
-    W.querySelectorAll('.wopts button').forEach(b => b.addEventListener('click', () => close(b.dataset.w)));
-    document.getElementById('wskip').addEventListener('click', () => close(null));
-    W.addEventListener('keydown', e => { if (e.key === 'Escape') close(null); });
+    size();
+    pts.forEach(p => { const a = Math.random() * Math.PI * 2, r = Math.max(W, H) * (0.6 + Math.random() * 0.5); p.sx = W / 2 + Math.cos(a) * r; p.sy = H / 2 + Math.sin(a) * r; p.d = Math.random() * 0.35; p.vx = (Math.random() - .5) * 4; p.vy = (Math.random() - .5) * 4 - 1; });
+    const stars = Array.from({ length: 90 }, () => ({ x: Math.random(), y: Math.random(), c: ['#ff3ea5', '#2de2e6', '#ffd23f', '#f6e9ff'][Math.floor(Math.random() * 4)], p: Math.random() * 6 }));
+    const ease = t => 1 - Math.pow(1 - t, 3);
+    const T1 = 1.15, T2 = 1.75, T3 = 2.7; let t0 = null, done = false;
+    const end = () => { if (done) return; done = true; cv.hidden = true; document.documentElement.style.overflow = ''; };
+    cv.addEventListener('click', () => { t0 = performance.now() - T2 * 1000; });
+    const frame = (now) => {
+      if (done) return; if (t0 == null) t0 = now; const t = (now - t0) / 1000;
+      g.clearRect(0, 0, W, H);
+      // background, dissolving in blocks after T2
+      const k = t < T2 ? 0 : (t - T2) / (T3 - T2);
+      const grd = g.createRadialGradient(W / 2, H / 2, 0, W / 2, H / 2, Math.max(W, H) * .7); grd.addColorStop(0, '#2a0b55'); grd.addColorStop(1, '#0e0620');
+      g.fillStyle = grd;
+      for (const o of order) if (o.t >= k) g.fillRect(o.x * B, o.y * B, B, B);
+      // twinkling stars (gone with their block)
+      stars.forEach(s => { const bx = Math.floor(s.x * W / B), by = Math.floor(s.y * H / B), blk = order[by * cols + bx]; if (blk && blk.t < k) return; g.globalAlpha = .3 + .7 * Math.abs(Math.sin(t * 3 + s.p)); g.fillStyle = s.c; g.fillRect(Math.round(s.x * W), Math.round(s.y * H), 1, 1); }); g.globalAlpha = 1;
+      // the mark
+      const pulse = t > T1 && t < T2 ? Math.sin((t - T1) / (T2 - T1) * Math.PI) : 0;
+      if (pulse > 0) { for (const p of pts) { g.globalAlpha = pulse * .22; g.fillStyle = p.c; g.fillRect(ox + (p.x - 1) * cell, oy + (p.y - 1) * cell, cell * 3, cell * 3); } g.globalAlpha = 1; }
+      for (const p of pts) {
+        let x, y, a = 1;
+        if (t < T2) { const q = Math.min(1, Math.max(0, (t - p.d) / (T1 - p.d))), e = ease(q); x = p.sx + (ox + p.x * cell - p.sx) * e; y = p.sy + (oy + p.y * cell - p.sy) * e; a = .25 + .75 * q;
+          if (q < 1) { g.globalAlpha = a * .35; g.fillStyle = p.c; g.fillRect(Math.round(x - (ox + p.x * cell - p.sx) * .06), Math.round(y - (oy + p.y * cell - p.sy) * .06), cell, cell); } }
+        else { const u = t - T2; x = ox + p.x * cell + p.vx * u * 60 * cell / 6; y = oy + p.y * cell + (p.vy * u * 60 + 80 * u * u) * cell / 6; a = Math.max(0, 1 - u / (T3 - T2)); }
+        g.globalAlpha = a; g.fillStyle = pulse > .6 && (p.x + p.y) % 2 ? '#ffffff' : p.c; g.fillRect(Math.round(x), Math.round(y), cell, cell);
+      }
+      g.globalAlpha = 1;
+      if (t >= T3) return end();
+      requestAnimationFrame(frame);
+    };
+    addEventListener('resize', size);
+    requestAnimationFrame(frame);
+    setTimeout(end, 5000);
   })();
 
 })();
