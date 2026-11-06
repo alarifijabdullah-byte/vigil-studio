@@ -507,7 +507,7 @@ section { padding-block: 110px 0 }
           <div class="out" id="out" hidden><span id="outNote"></span><pre id="outText"></pre><div style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn" id="waOpen" target="_blank" rel="noopener" hidden>Open WhatsApp</a><button class="btn alt" type="button" id="copy">Copy message</button></div></div>
         </form>
       </div>
-      <div class="foot"><span>© 2026 Vigil</span><span><a href="brand.html" style="color:inherit">Brand guide</a> · VIGIL STUDIO</span></div>
+      <div class="foot"><span>© 2026 Vigil</span><span><a href="brand.html" style="color:inherit">Brand guide</a> · <a href="privacy-en.html" style="color:inherit">Privacy</a> · VIGIL STUDIO</span></div>
     </div>
   </section>
 </main>
@@ -897,5 +897,16 @@ section { padding-block: 110px 0 }
   document.querySelectorAll('#mnav a').forEach(a => a.addEventListener('click', () => { nav.classList.remove('open'); mbtn.setAttribute('aria-expanded', 'false'); }));
 
 
+})();
+</script>
+<script>
+/* Google Ads: once the account exists, set GADS_ID (AW-…) and GADS_LEAD (the conversion label). Every tap on a WhatsApp link then counts as a lead. */
+(() => {
+  const GADS_ID = '', GADS_LEAD = '';
+  if (!GADS_ID) return;
+  const s = document.createElement('script'); s.async = true; s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GADS_ID; document.head.append(s);
+  window.dataLayer = window.dataLayer || []; window.gtag = function () { dataLayer.push(arguments); };
+  gtag('js', new Date()); gtag('config', GADS_ID);
+  document.addEventListener('click', (e) => { const a = e.target.closest('a[href*="wa.me/"]'); if (a && GADS_LEAD) gtag('event', 'conversion', { send_to: GADS_ID + '/' + GADS_LEAD }); });
 })();
 </script>
