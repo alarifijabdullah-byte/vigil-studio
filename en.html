@@ -328,6 +328,15 @@ section { padding-block: 110px 0 }
   .ident { gap: 16px }
   body.has-order { padding-bottom: 70px }
 }
+/* digital menu showcase */
+.qrwrap { display: grid; grid-template-columns: minmax(0, 360px) minmax(0, 1fr); gap: 28px; align-items: center }
+.qrphone { width: 100%; max-width: 360px; aspect-ratio: 9 / 18; justify-self: center; border: 10px solid #05020c; border-radius: 34px; overflow: hidden; background: #000; box-shadow: 0 0 0 4px var(--line), 10px 10px 0 #05020c, 0 0 80px -20px rgba(255,62,165,.5) }
+.qrphone iframe { width: 100%; height: 100%; border: 0; display: block; background: #f6efe4 }
+.qrinfo { padding: 22px }
+.qrinfo ul { margin: 0; padding-inline-start: 20px; display: grid; gap: 6px; font: 700 15px/1.7 var(--kufi) }
+.qrbtns { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 18px }
+.qrbtns .btn { justify-content: center }
+@media (max-width: 860px) { .qrwrap { grid-template-columns: 1fr } .qrphone { max-width: 300px } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important } html { scroll-behavior: auto } }
 </style>
 
@@ -337,7 +346,7 @@ section { padding-block: 110px 0 }
 <nav class="nav" aria-label="Menu">
   <div class="g">
     <a class="logo" href="#top" aria-label="Vigil"><canvas data-sprite="mark" width="12" height="12"></canvas><b>Vigil</b></a>
-    <div class="menu" id="mnav"><a href="#free">Free</a><a href="#inventory">Services</a><a href="#quest">Licences</a><a href="#npc">AI Assistant</a><a href="#guide">FAQ</a><a href="#save">Contact</a></div>
+    <div class="menu" id="mnav"><a href="#free">Free</a><a href="#inventory">Services</a><a href="#qrmenu">QR Menu</a><a href="#quest">Licences</a><a href="#npc">AI Assistant</a><a href="#guide">FAQ</a><a href="#save">Contact</a></div>
     <div class="hud"><button type="button" class="mbtn" id="mbtn" aria-expanded="false" aria-controls="mnav" aria-label="Menu">≡</button><a class="bag" href="#inventory">Your order <span id="score">(0)</span></a><a class="lang" href="index.html" lang="ar">عربي</a></div>
   </div>
 </nav>
@@ -384,6 +393,20 @@ section { padding-block: 110px 0 }
           <div class="detail" id="detail" aria-live="polite"></div>
           <a class="btn" id="go" href="#save" aria-disabled="true">Send order →</a>
         </aside>
+      </div>
+    </div>
+  </section>
+
+  <section id="qrmenu" aria-labelledby="h-qr">
+    <div class="g">
+      <div class="head"><h2 class="pt" id="h-qr" data-size="26" data-msize="19" data-scale="2"><span class="sr">Digital QR Menu</span></h2><p class="lead">Customers scan the code on the table and get a menu in your café’s own look. They browse, see details and send their order on WhatsApp. You change prices and items any time, with no reprinting.</p></div>
+      <div class="qrwrap">
+        <div class="qrphone"><iframe src="menu-demo.html" title="Sample digital menu for Dallah House Café" loading="lazy"></iframe></div>
+        <div class="box qrinfo">
+          <ul><li>Designed in your café’s look and colours</li><li>Sections and items with photos and prices</li><li>One-tap ordering on WhatsApp</li><li>A QR code ready to print for tables</li><li>Update prices without reprinting</li></ul>
+          <div class="qrbtns"><a class="btn" href="menu-demo.html" target="_blank" rel="noopener">Open the example →</a><button type="button" class="btn alt" id="qrAdd">Add to order +</button></div>
+          <p class="fine">The example is for a made-up café; prices are illustrative.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -621,6 +644,7 @@ section { padding-block: 110px 0 }
     { g: 'market', s: 'cam', t: 'Editing & Reels', d: 'Your phone clips become Reels cut to the beat, with Arabic and English subtitles. In 2 days.' },
     { g: 'market', s: 'ads', t: 'Video Ads', d: 'Snapchat, TikTok and Instagram ads that hook from the first second, sized for each platform. In 3 days.' },
     { g: 'brand', s: 'logo', t: 'Logo & Identity', d: 'A logo in Arabic and English, colours, type, a brand guide and all files. About 7 days.' },
+    { g: 'brand', s: 'web', t: 'Digital QR Menu', d: 'A phone menu in your café’s own look: sections, photos and prices, and customers order by WhatsApp. Change prices any time. In 4 days.' },
     { g: 'brand', s: 'menu', t: 'Menus & Print', d: 'A menu or price list, cards and flyers ready to print. In 3 days.' },
     { g: 'brand', s: 'deck', t: 'Company Profile', d: 'A profile in Arabic and English and a sales deck. In 4 days.' },
     { g: 'start', s: 'key', t: 'Hospitality Unit Licence', d: 'We prepare your chalet or apartment licence file under the new regulation and guide you until it’s issued.' , _old: '' },
@@ -664,6 +688,7 @@ section { padding-block: 110px 0 }
     const b = document.createElement('button'); b.type = 'button'; b.className = 'btn'; b.dataset.free = '1'; b.setAttribute('aria-pressed', 'false'); b.innerHTML = '<b>Add to order +</b>'; b.addEventListener('click', () => toggle(n)); chips[n] = b;
     c.append(h, p, meta, b); ups.append(c); });
   go.addEventListener('click', e => { if (!picked.length) e.preventDefault(); });
+  { const qn = LIB.findIndex(o => o.s === 'web' && o.g === 'brand'), qb = document.getElementById('qrAdd'); qb.addEventListener('click', () => { const c = chips[qn]; if (c.getAttribute('aria-pressed') !== 'true') toggle(qn); qb.textContent = '✓ Added to your order'; }); }
 
   render();
 

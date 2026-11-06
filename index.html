@@ -328,6 +328,15 @@ section { padding-block: 110px 0 }
   .ident { gap: 16px }
   body.has-order { padding-bottom: 70px }
 }
+/* digital menu showcase */
+.qrwrap { display: grid; grid-template-columns: minmax(0, 360px) minmax(0, 1fr); gap: 28px; align-items: center }
+.qrphone { width: 100%; max-width: 360px; aspect-ratio: 9 / 18; justify-self: center; border: 10px solid #05020c; border-radius: 34px; overflow: hidden; background: #000; box-shadow: 0 0 0 4px var(--line), 10px 10px 0 #05020c, 0 0 80px -20px rgba(255,62,165,.5) }
+.qrphone iframe { width: 100%; height: 100%; border: 0; display: block; background: #f6efe4 }
+.qrinfo { padding: 22px }
+.qrinfo ul { margin: 0; padding-inline-start: 20px; display: grid; gap: 6px; font: 700 15px/1.7 var(--kufi) }
+.qrbtns { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 18px }
+.qrbtns .btn { justify-content: center }
+@media (max-width: 860px) { .qrwrap { grid-template-columns: 1fr } .qrphone { max-width: 300px } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important } html { scroll-behavior: auto } }
 </style>
 
@@ -337,7 +346,7 @@ section { padding-block: 110px 0 }
 <nav class="nav" aria-label="القائمة">
   <div class="g">
     <a class="logo" href="#top" aria-label="Vigil"><canvas data-sprite="mark" width="12" height="12"></canvas><b>Vigil</b></a>
-    <div class="menu" id="mnav"><a href="#free">مجانًا</a><a href="#inventory">الخدمات</a><a href="#quest">التراخيص</a><a href="#npc">المساعد الذكي</a><a href="#guide">أسئلة</a><a href="#save">تواصل</a></div>
+    <div class="menu" id="mnav"><a href="#free">مجانًا</a><a href="#inventory">الخدمات</a><a href="#qrmenu">المنيو الرقمي</a><a href="#quest">التراخيص</a><a href="#npc">المساعد الذكي</a><a href="#guide">أسئلة</a><a href="#save">تواصل</a></div>
     <div class="hud"><button type="button" class="mbtn" id="mbtn" aria-expanded="false" aria-controls="mnav" aria-label="القائمة">≡</button><a class="bag" href="#inventory">طلبك <span id="score">(0)</span></a><a class="lang" href="en.html" lang="en">EN</a></div>
   </div>
 </nav>
@@ -384,6 +393,20 @@ section { padding-block: 110px 0 }
           <div class="detail" id="detail" aria-live="polite"></div>
           <a class="btn" id="go" href="#save" aria-disabled="true">أرسل الطلب ←</a>
         </aside>
+      </div>
+    </div>
+  </section>
+
+  <section id="qrmenu" aria-labelledby="h-qr">
+    <div class="g">
+      <div class="head"><h2 class="pt" id="h-qr" data-size="26" data-msize="19" data-scale="2"><span class="sr">المنيو الرقمي</span></h2><p class="lead">العميل يمسح الكود على الطاولة، ويفتح له منيو بهوية كافيهك. يتصفح الأقسام، ويشوف التفاصيل، ويرسل طلبه على الواتساب. وأنت تعدّل الأسعار والأصناف متى ما تبي، بدون طباعة.</p></div>
+      <div class="qrwrap">
+        <div class="qrphone"><iframe src="menu-demo.html" title="مثال منيو رقمي لكافيه بيت الدلة" loading="lazy"></iframe></div>
+        <div class="box qrinfo">
+          <ul><li>تصميم بهوية كافيهك وألوانه</li><li>أقسام وأصناف بصور وأسعار</li><li>طلب على الواتساب بضغطة</li><li>كود QR جاهز للطباعة على الطاولات</li><li>تعديل الأسعار بدون ما تطبع من جديد</li></ul>
+          <div class="qrbtns"><a class="btn" href="menu-demo.html" target="_blank" rel="noopener">افتح المثال ←</a><button type="button" class="btn alt" id="qrAdd">أضفها لطلبك +</button></div>
+          <p class="fine">المثال لكافيه وهمي، والأسعار توضيحية.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -621,6 +644,7 @@ section { padding-block: 110px 0 }
     { g: 'market', s: 'cam', t: 'مونتاج وريلز', d: 'مقاطعك من الجوال تصير ريلز مقصوصة على الإيقاع، بترجمة عربي وإنجليزي. خلال يومين.' },
     { g: 'market', s: 'ads', t: 'إعلانات فيديو', d: 'إعلانات سناب وتيك توك وانستقرام تشد من أول ثانية، بمقاس كل منصة. خلال ٣ أيام.' },
     { g: 'brand', s: 'logo', t: 'الشعار والهوية', d: 'شعار بالعربي والإنجليزي، ألوان وخطوط ودليل هوية، وكل الملفات. ٧ أيام تقريبًا.' },
+    { g: 'brand', s: 'web', t: 'منيو رقمي (QR)', d: 'منيو على الجوال بهوية كافيهك: أقسام وصور وأسعار، والعميل يطلب ويرسل على الواتساب. وتعدّل الأسعار متى ما تبي. خلال ٤ أيام.' },
     { g: 'brand', s: 'menu', t: 'منيو ومطبوعات', d: 'منيو أو قائمة أسعار، كروت وفلايرات جاهزة للطباعة. خلال ٣ أيام.' },
     { g: 'brand', s: 'deck', t: 'بروفايل الشركة', d: 'بروفايل بالعربي والإنجليزي وعرض تقديمي للمبيعات. خلال ٤ أيام.' },
     { g: 'start', s: 'key', t: 'ترخيص وحدة الضيافة', d: 'نجهّز ملف ترخيص الشاليه أو الشقة حسب اللائحة الجديدة، ونمشي معك في التقديم حتى يصدر.' , _old: 'نراجع المستندات ونقدّم على منصة وزارة السياحة ونتابع حتى القرار.' },
@@ -664,6 +688,7 @@ section { padding-block: 110px 0 }
     const b = document.createElement('button'); b.type = 'button'; b.className = 'btn'; b.dataset.free = '1'; b.setAttribute('aria-pressed', 'false'); b.innerHTML = '<b>أضفها لطلبك +</b>'; b.addEventListener('click', () => toggle(n)); chips[n] = b;
     c.append(h, p, meta, b); ups.append(c); });
   go.addEventListener('click', e => { if (!picked.length) e.preventDefault(); });
+  { const qn = LIB.findIndex(o => o.s === 'web' && o.g === 'brand'), qb = document.getElementById('qrAdd'); qb.addEventListener('click', () => { const c = chips[qn]; if (c.getAttribute('aria-pressed') !== 'true') toggle(qn); qb.textContent = '✓ انضافت لطلبك'; }); }
 
   render();
 
