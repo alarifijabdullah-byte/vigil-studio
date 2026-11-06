@@ -32,6 +32,7 @@
   color-scheme: dark;
 }
 * { box-sizing: border-box }
+[hidden] { display: none !important }
 html { scroll-behavior: smooth }
 body { margin: 0; background: var(--night); color: var(--ink); font: 500 16px/1.9 var(--kufi); overflow-x: hidden; -webkit-font-smoothing: antialiased }
 ::selection { background: var(--pink); color: var(--night) }
@@ -247,6 +248,83 @@ section { padding-block: 110px 0 }
 
 .foot { margin-top: 110px; padding-block: 26px 40px; border-top: 4px solid var(--line); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font: 400 20px/1.4 var(--vt); color: var(--dim); direction: ltr }
 
+/* mobile menu + WhatsApp button */
+.mbtn { display: none; cursor: pointer; background: var(--plum); color: var(--ink); border: 3px solid var(--line); width: 40px; height: 36px; align-items: center; justify-content: center; font: 400 28px/1 var(--vt); padding: 0 }
+.wafab { display: none; position: fixed; z-index: 70; inset-inline-end: max(14px, env(safe-area-inset-right, 0px)); bottom: calc(14px + env(safe-area-inset-bottom, 0px)); font: 800 15px/1 var(--kufi); text-decoration: none; padding: 13px 16px 11px; background: #25d366; color: #062b14; box-shadow: inset -4px -4px 0 rgba(0,0,0,.2), inset 4px 4px 0 rgba(255,255,255,.35), 4px 4px 0 #05020c }
+.bundle.pick { --b: var(--sun); animation: glow 1.2s steps(2) 3 }
+.bundle.pick::before { content: attr(data-pick); position: absolute; top: -14px; inset-inline-start: 16px; font: 800 12px/1 var(--kufi); background: var(--sun); color: var(--night); padding: 7px 10px 5px }
+.bundle { position: relative }
+@keyframes glow { 50% { box-shadow: 6px 6px 0 #05020c, 0 0 28px var(--sun) } }
+
+/* welcome screen */
+.welcome { position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; padding: 20px; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); background: radial-gradient(60% 50% at 50% 40%, rgba(123,47,247,.45), transparent 70%), rgba(14,6,32,.94); backdrop-filter: blur(6px) }
+.welcome.out { animation: wout .55s steps(6) forwards }
+@keyframes wout { to { opacity: 0; transform: scale(1.06); visibility: hidden } }
+.wbox { width: min(460px, 100%); display: grid; justify-items: center; gap: 12px; text-align: center; padding: 28px 22px 20px; background: var(--deep); border: 4px solid var(--pink); box-shadow: 8px 8px 0 #05020c, 0 0 60px -10px rgba(255,62,165,.5);
+  clip-path: polygon(0 8px, 8px 8px, 8px 0, calc(100% - 8px) 0, calc(100% - 8px) 8px, 100% 8px, 100% calc(100% - 8px), calc(100% - 8px) calc(100% - 8px), calc(100% - 8px) 100%, 8px 100%, 8px calc(100% - 8px), 0 calc(100% - 8px)) }
+#wmark { width: 96px; height: 96px; image-rendering: pixelated }
+.wtag { font: 400 9px/1 var(--px); color: var(--sun); letter-spacing: .1em; direction: ltr }
+.wtype { font: 900 clamp(20px, 5vw, 26px)/1.5 var(--kufi); min-height: 1.5em; background: linear-gradient(180deg, var(--sun), var(--orange, #ff8a3d) 45%, var(--pink)); -webkit-background-clip: text; background-clip: text; color: transparent }
+.wcur { display: inline-block; width: 10px; height: .9em; background: var(--pink); vertical-align: -2px; margin-inline-start: 4px; animation: blink .8s steps(1) infinite }
+.wq { font: 700 16px/1.6 var(--kufi); color: var(--soft) }
+.wopts { display: grid; gap: 8px; width: 100% }
+.wopts button { animation: pop .3s steps(3) both }
+.wopts button:nth-child(2) { animation-delay: .08s } .wopts button:nth-child(3) { animation-delay: .16s } .wopts button:nth-child(4) { animation-delay: .24s }
+.wopts button { all: unset; cursor: pointer; font: 800 15px/1.4 var(--kufi); padding: 13px 14px 11px; background: var(--night); border: 3px solid var(--line); text-align: start; transition: border-color 80ms steps(1), background-color 80ms steps(1) }
+.wopts button::before { content: "▶ "; color: var(--pink) }
+.wopts button:hover, .wopts button:focus-visible { border-color: var(--cyan); background: #1d0e3d }
+.wskip { all: unset; cursor: pointer; font: 600 13px/1 var(--kufi); color: var(--dim); padding: 8px; border-bottom: 2px solid transparent }
+.wskip:hover, .wskip:focus-visible { color: var(--ink); border-color: var(--ink) }
+.toast { position: fixed; z-index: 150; left: 50%; transform: translateX(-50%); bottom: calc(76px + env(safe-area-inset-bottom, 0px)); width: min(520px, calc(100% - 28px)); display: flex; align-items: center; gap: 10px; padding: 12px 12px 10px 14px; background: var(--deep); border: 3px solid var(--sun); box-shadow: 5px 5px 0 #05020c; font: 700 14px/1.6 var(--kufi) }
+.toast span { flex: 1; min-width: 0 }
+.toast button { all: unset; cursor: pointer; font: 800 13px/1 var(--kufi); padding: 9px 11px 7px; background: var(--sun); color: var(--night); white-space: nowrap }
+.toast #toastX { background: transparent; color: var(--dim); font-size: 20px; padding: 4px 6px }
+
+@media (max-width: 900px) {
+  .mbtn { display: inline-flex }
+  .nav.open .menu { display: grid; position: absolute; top: 100%; inset-inline: 0; background: var(--night); border-bottom: 4px solid var(--line); padding: 6px max(16px, env(safe-area-inset-left, 0px)) 12px; gap: 0 }
+  .nav.open .menu a { padding: 14px 6px 12px; font-size: 16px; border: 0; border-bottom: 2px dotted var(--line) }
+  .nav.open .menu a:last-child { border-bottom: 0 }
+  .wafab { display: inline-flex }
+}
+@media (max-width: 600px) {
+  section { padding-block: 64px 0 }
+  .head { margin-bottom: 22px; gap: 8px }
+  .lead { font-size: 15px; line-height: 1.85 }
+  .hud { gap: 10px }
+  .hud .bag { font-size: 13px }
+  .title { top: 3%; gap: 6px }
+  .title .sub { font-size: 13.5px; line-height: 1.75; padding: 6px 10px 4px }
+  .start { font-size: 15px; padding: 11px 14px }
+  .hudline { display: none }
+  .ticker { margin-top: -10px }
+  .ticker span { font-size: 17px; padding: 11px 14px 8px }
+  .box { box-shadow: 4px 4px 0 #05020c }
+  .up, .up:nth-child(2), .up:nth-child(3) { transform: none; padding: 18px 16px 16px; gap: 10px }
+  .up .sp { width: 44px; height: 44px }
+  .up h3 { font-size: 17px }
+  .bundle { padding: 18px 16px 16px; gap: 10px }
+  .grp { padding: 14px 12px }
+  .grp h3 { font-size: 16px; flex-wrap: wrap; gap: 4px 8px }
+  .grp .gd { font-size: 13px }
+  .slots { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px }
+  .slot { padding: 10px 4px 8px; font-size: 11.5px; line-height: 1.45; gap: 6px }
+  .slot canvas { width: 32px; height: 32px }
+  .bagbox { padding: 16px }
+  .log, .permit { padding: 18px 16px }
+  .permit { transform: none; margin-top: 6px }
+  .stamp { width: 84px; height: 84px }
+  .chips span { font-size: 16px }
+  .stage2 { padding: 14px 12px; min-height: 0; gap: 12px }
+  .say { font-size: 14px }
+  .choices button { font-size: 14px }
+  .markbox { height: 260px }
+  .guide summary { font-size: 15px; padding: 12px 14px 10px }
+  .guide p { font-size: 14px; padding: 0 14px 14px }
+  .save { padding: 18px 16px; gap: 18px }
+  .foot { margin-top: 70px; padding-bottom: 90px; font-size: 17px }
+  .toast { bottom: calc(74px + env(safe-area-inset-bottom, 0px)) }
+}
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important } html { scroll-behavior: auto } }
 </style>
 
@@ -256,10 +334,24 @@ section { padding-block: 110px 0 }
 <nav class="nav" aria-label="Menu">
   <div class="g">
     <a class="logo" href="#top" aria-label="Vigil"><canvas data-sprite="mark" width="12" height="12"></canvas><b>Vigil</b></a>
-    <div class="menu"><a href="#free">Free</a><a href="#bundles">Bundles</a><a href="#inventory">Services</a><a href="#quest">Licences</a><a href="#npc">AI Assistant</a><a href="#guide">FAQ</a><a href="#save">Contact</a></div>
-    <div class="hud"><a class="bag" href="#inventory">Your order <span id="score">(0)</span></a><a class="lang" href="index.html" lang="ar">عربي</a></div>
+    <div class="menu" id="mnav"><a href="#free">Free</a><a href="#bundles">Bundles</a><a href="#inventory">Services</a><a href="#quest">Licences</a><a href="#npc">AI Assistant</a><a href="#guide">FAQ</a><a href="#save">Contact</a></div>
+    <div class="hud"><button type="button" class="mbtn" id="mbtn" aria-expanded="false" aria-controls="mnav" aria-label="Menu">≡</button><a class="bag" href="#inventory">Your order <span id="score">(0)</span></a><a class="lang" href="index.html" lang="ar">عربي</a></div>
   </div>
 </nav>
+
+<a class="wafab" href="https://wa.me/966501444443?text=Hi%20Vigil%2C%20I%20have%20a%20question%20about%20your%20services" target="_blank" rel="noopener">WhatsApp</a>
+
+<div class="welcome" id="welcome" role="dialog" aria-modal="true" aria-labelledby="wTitle" hidden>
+  <div class="wbox">
+    <canvas id="wmark" width="96" height="96" aria-hidden="true"></canvas>
+    <p class="wtag">VIGIL STUDIO</p>
+    <h2 id="wTitle" class="wtype"><span class="sr">Welcome to Vigil Studio</span><span id="wtyped" aria-hidden="true"></span><i class="wcur" aria-hidden="true"></i></h2>
+    <p class="wq" id="wq">What brings you here today?</p>
+    <div class="wopts" id="wopts"><button type="button" data-w="1">I have a new business</button><button type="button" data-w="0">I have a chalet or apartment</button><button type="button" data-w="2">I run an existing business</button><button type="button" data-w="x">Just looking around</button></div>
+    <button type="button" class="wskip" id="wskip">Skip</button>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" hidden><span id="toastText"></span><button type="button" id="toastGo">Show me</button><button type="button" id="toastX" aria-label="Close">×</button></div>
 
 <main id="top">
   <section class="hero" aria-labelledby="t1" style="padding:0;padding-top:calc(52px + env(safe-area-inset-top, 0px))">
@@ -268,8 +360,8 @@ section { padding-block: 110px 0 }
       <div class="hots" id="hots"></div>
       <div class="hudline" aria-hidden="true"><span>VIGIL STUDIO</span><span id="hiclock">00:00</span></div>
       <div class="title">
-        <h1 class="pt" id="t1" data-font="gothic" data-size="74" data-scale="3"><span class="sr">Vigil</span></h1>
-        <p class="pt" data-size="30" data-scale="2" data-max="900"><span class="sr">We make your business stand out</span></p>
+        <h1 class="pt" id="t1" data-font="gothic" data-size="74" data-msize="50" data-scale="3"><span class="sr">Vigil</span></h1>
+        <p class="pt" data-size="30" data-msize="15" data-scale="2" data-max="900"><span class="sr">We make your business stand out</span></p>
         <p class="sub">A production, design, licensing and AI studio. Look around the studio and tap any object.</p>
         <a class="start" href="#free"><span class="blink">▶</span>Start for free</a>
       </div>
@@ -280,21 +372,21 @@ section { padding-block: 110px 0 }
 
   <section id="free" aria-labelledby="h-free">
     <div class="g">
-      <div class="head"><h2 class="pt" id="h-free" data-size="26" data-scale="2"><span class="sr">Free services</span></h2><p class="lead">Three services we start with at no cost, so you can see our work before you decide. Pick what fits and it goes into your order.</p></div>
+      <div class="head"><h2 class="pt" id="h-free" data-size="26" data-msize="19" data-scale="2"><span class="sr">Free services</span></h2><p class="lead">Three services we start with at no cost, so you can see our work before you decide. Pick what fits and it goes into your order.</p></div>
       <div class="ups" id="ups"></div>
     </div>
   </section>
 
   <section id="bundles" aria-labelledby="h-bun">
     <div class="g">
-      <div class="head"><h2 class="pt" id="h-bun" data-size="26" data-scale="2"><span class="sr">Ready bundles</span></h2><p class="lead">Services that work well together. Add a bundle in one tap, then add or remove anything.</p></div>
+      <div class="head"><h2 class="pt" id="h-bun" data-size="26" data-msize="19" data-scale="2"><span class="sr">Ready bundles</span></h2><p class="lead">Services that work well together. Add a bundle in one tap, then add or remove anything.</p></div>
       <div class="bundles" id="bundleGrid"></div>
     </div>
   </section>
 
   <section id="inventory" aria-labelledby="h-inv">
     <div class="g">
-      <div class="head"><h2 class="pt" id="h-inv" data-size="26" data-scale="2"><span class="sr">Our services</span></h2><p class="lead">Tap any service you need to add it to your order. We send a clear quote before we start.</p></div>
+      <div class="head"><h2 class="pt" id="h-inv" data-size="26" data-msize="19" data-scale="2"><span class="sr">Our services</span></h2><p class="lead">Tap any service you need to add it to your order. We send a clear quote before we start.</p></div>
       <div class="inv">
         <div class="groups" id="groups"></div>
         <aside class="box bagbox" aria-labelledby="bag-h">
@@ -309,7 +401,7 @@ section { padding-block: 110px 0 }
 
   <section id="quest" aria-labelledby="h-quest">
     <div class="g">
-      <div class="head"><h2 class="pt" id="h-quest" data-size="26" data-scale="2"><span class="sr">Licences</span></h2></div>
+      <div class="head"><h2 class="pt" id="h-quest" data-size="26" data-msize="19" data-scale="2"><span class="sr">Licences</span></h2></div>
       <div class="quest">
         <div class="box log">
           
@@ -334,7 +426,7 @@ section { padding-block: 110px 0 }
 
   <section id="npc" aria-labelledby="h-npc">
     <div class="g">
-      <div class="head"><h2 class="pt" id="h-npc" data-size="26" data-scale="2"><span class="sr">AI Assistant</span></h2></div>
+      <div class="head"><h2 class="pt" id="h-npc" data-size="26" data-msize="19" data-scale="2"><span class="sr">AI Assistant</span></h2></div>
       <div class="npcwrap">
         <div class="side">
           <p class="lead" style="color:var(--soft)">An assistant built on Claude that answers your customers in their own dialect around the clock, and hands you what needs you. Pick a business and ask as a customer.</p>
@@ -356,14 +448,14 @@ section { padding-block: 110px 0 }
     <div class="g">
       <div class="ident">
         <div class="box markbox"><canvas id="dots" aria-hidden="true"></canvas></div>
-        <div class="head" style="margin:0"><h2 class="pt" id="h-id" data-size="26" data-scale="2"><span class="sr">Branding</span></h2><p class="lead">A logo in Arabic and English, colours, type and a brand guide, so everything your business puts out looks like one brand. Move your cursor over the mark.</p></div>
+        <div class="head" style="margin:0"><h2 class="pt" id="h-id" data-size="26" data-msize="19" data-scale="2"><span class="sr">Branding</span></h2><p class="lead">A logo in Arabic and English, colours, type and a brand guide, so everything your business puts out looks like one brand. Move your cursor over the mark.</p></div>
       </div>
     </div>
   </section>
 
   <section id="guide" aria-labelledby="h-guide">
     <div class="g">
-      <div class="head"><h2 class="pt" id="h-guide" data-size="26" data-scale="2"><span class="sr">FAQ</span></h2></div>
+      <div class="head"><h2 class="pt" id="h-guide" data-size="26" data-msize="19" data-scale="2"><span class="sr">FAQ</span></h2></div>
       <div class="guide">
         <details open><summary>What’s the difference between the free and full service?</summary><p>The free version is a short one that shows you our work and where your business stands. The full service is the complete job: a full report, a full identity, your licence file, or launching the assistant. No commitment after the free one.</p></details>
         <details><summary>Do you submit the hospitality licence for me?</summary><p>We prepare the full file and review it with you under the Private Hospitality Unit Regulation. You submit from your own account on the Ministry of Tourism platform, and we stay with you step by step. The decision is the Ministry’s, and government fees are paid to it.</p></details>
@@ -377,11 +469,11 @@ section { padding-block: 110px 0 }
 
   <section id="save" aria-labelledby="h-save">
     <div class="g">
-      <div class="head"><h2 class="pt" id="h-save" data-size="26" data-scale="2"><span class="sr">Contact us</span></h2></div>
+      <div class="head"><h2 class="pt" id="h-save" data-size="26" data-msize="19" data-scale="2"><span class="sr">Contact us</span></h2></div>
       <div class="box save">
         <div class="info">
           <p class="lead" style="color:var(--soft)">Tell us about your project and we’ll reply within one working day with a free consultation.</p>
-                    <p class="row" dir="ltr" style="text-align:start">WhatsApp: <bdi dir="ltr">050 144 4443</bdi></p>
+                    <p class="row" dir="ltr" style="text-align:start;font:700 16px/1.6 var(--kufi);color:var(--soft)">WhatsApp: <bdi dir="ltr" style="font:400 26px/1 var(--vt);color:var(--cyan)">050 144 4443</bdi></p>
         </div>
         <form class="slotsave" id="ctaForm" novalidate>
           <label><b>Name</b><input id="cName" autocomplete="name" required></label>
@@ -437,7 +529,7 @@ section { padding-block: 110px 0 }
     const text = el.querySelector('.sr').textContent, gothic = el.dataset.font === 'gothic';
     let P = +el.dataset.scale || 2; if (innerWidth < 600) P = Math.max(2, P - 1);
     const maxW = Math.min(+(el.dataset.max || 1200), (el.parentElement.clientWidth || innerWidth) - 4);
-    const fs = (+el.dataset.size || 13) * (innerWidth < 600 && !gothic ? .9 : 1), cw = Math.floor(maxW / P);
+    const fs = innerWidth < 600 && el.dataset.msize ? +el.dataset.msize : (+el.dataset.size || 13) * (innerWidth < 600 && !gothic ? .9 : 1), cw = Math.floor(maxW / P);
     const font = gothic ? `700 ${fs}px "Grenze Gotisch", serif` : `900 ${fs}px "Noto Kufi Arabic", sans-serif`;
     const m = document.createElement('canvas').getContext('2d'); m.font = font;
     const words = text.split(' '), lines = []; let cur = '';
@@ -533,7 +625,7 @@ section { padding-block: 110px 0 }
     { t: 'Monthly Growth Bundle', for: 'For a running business that wants more customers every month.', items: [10, 0, 8, 1] }
   ];
   const bgrid = document.getElementById('bundleGrid');
-  BUNDLES.forEach(bd => { const c = document.createElement('article'); c.className = 'box bundle'; const h = document.createElement('h3'); h.textContent = bd.t; const p = document.createElement('p'); p.className = 'for'; p.textContent = bd.for; const ul = document.createElement('ul');
+  BUNDLES.forEach((bd, bi) => { const c = document.createElement('article'); c.className = 'box bundle'; c.dataset.b = bi; const h = document.createElement('h3'); h.textContent = bd.t; const p = document.createElement('p'); p.className = 'for'; p.textContent = bd.for; const ul = document.createElement('ul');
     bd.items.forEach(n => { const li = document.createElement('li'); li.append(sprite(LIB[n].s)); const sp = document.createElement('span'); sp.textContent = LIB[n].t; li.append(sp); ul.append(li); });
     const b = document.createElement('button'); b.type = 'button'; b.className = 'btn'; b.textContent = 'Add bundle to order +';
     b.addEventListener('click', () => { bd.items.forEach(n => { if (chips[n].getAttribute('aria-pressed') !== 'true') toggle(n); }); b.textContent = '✓ Added to your order'; document.getElementById('inventory').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }); });
@@ -721,5 +813,44 @@ section { padding-block: 110px 0 }
     if ('IntersectionObserver' in window) new IntersectionObserver(es => { es[0].isIntersecting ? start() : (run = false); }).observe(box3); else start();
     document.addEventListener('visibilitychange', () => { if (document.hidden) run = false; else start(); });
   })();
+
+  /* mobile menu */
+  const nav = document.querySelector('.nav'), mbtn = document.getElementById('mbtn');
+  mbtn.addEventListener('click', () => { const o = !nav.classList.contains('open'); nav.classList.toggle('open', o); mbtn.setAttribute('aria-expanded', String(o)); });
+  document.querySelectorAll('#mnav a').forEach(a => a.addEventListener('click', () => { nav.classList.remove('open'); mbtn.setAttribute('aria-expanded', 'false'); }));
+
+  /* welcome screen: the mark assembles pixel by pixel, a greeting types out, the visitor picks what brought them */
+  (() => {
+    const W = document.getElementById('welcome'); let seen = false;
+    try { seen = sessionStorage.getItem('vigil-welcome') === '1'; } catch (e) {}
+    if (seen || location.hash) return;
+    W.hidden = false; document.documentElement.style.overflow = 'hidden';
+    const cv = document.getElementById('wmark'), g = cv.getContext('2d'), rows = SPR.mark, S = 8, px = [];
+    rows.forEach((r, y) => [...r].forEach((ch, x) => { if (C[ch]) px.push([x, y, C[ch]]); }));
+    for (let i = px.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [px[i], px[j]] = [px[j], px[i]]; }
+    let k = 0; const drawN = () => { const n = reduce ? px.length : Math.min(px.length, k += 3); g.clearRect(0, 0, 96, 96); px.slice(0, n).forEach(([x, y, c]) => { g.fillStyle = c; g.fillRect(x * S, y * S, S, S); }); if (n < px.length) setTimeout(drawN, 28); };
+    drawN();
+    const text = "Welcome to Vigil Studio", out = document.getElementById('wtyped'); let i = 0;
+    const type = () => { i += 1; out.textContent = text.slice(0, i); if (i < text.length) setTimeout(type, 55); else setTimeout(() => { W.classList.add('ready'); const b = W.querySelector('.wopts button'); b && b.focus({ preventScroll: true }); }, 250); };
+    setTimeout(type, reduce ? 0 : 500); if (reduce) { out.textContent = text; i = text.length; W.classList.add('ready'); }
+    const close = (choice) => {
+      try { sessionStorage.setItem('vigil-welcome', '1'); } catch (e) {}
+      document.documentElement.style.overflow = '';
+      if (reduce) W.hidden = true; else { W.classList.add('out'); setTimeout(() => { W.hidden = true; }, 600); }
+      if (choice == null || choice === 'x') return;
+      const card = document.querySelector('.bundle[data-b="' + choice + '"]'); if (!card) return;
+      card.classList.add('pick'); card.dataset.pick = "Picked for you";
+      const name = card.querySelector('h3').textContent, toast = document.getElementById('toast');
+      document.getElementById('toastText').textContent = ((n) => 'We picked the ' + n + ' for you. Add it to your order in one tap.')(name);
+      toast.hidden = false;
+      document.getElementById('toastGo').onclick = () => { toast.hidden = true; card.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' }); };
+      document.getElementById('toastX').onclick = () => { toast.hidden = true; };
+      setTimeout(() => { toast.hidden = true; }, 12000);
+    };
+    W.querySelectorAll('.wopts button').forEach(b => b.addEventListener('click', () => close(b.dataset.w)));
+    document.getElementById('wskip').addEventListener('click', () => close(null));
+    W.addEventListener('keydown', e => { if (e.key === 'Escape') close(null); });
+  })();
+
 })();
 </script>
