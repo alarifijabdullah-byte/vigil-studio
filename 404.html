@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>الصفحة غير موجودة · Vigil</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#04060c">
+<link rel="icon" href="/assets/vigil-mark.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* 404: a quiet scene from the night-desert world. Absolute paths because GitHub Pages serves this file at any missing URL depth. */
+:root {
+  --bg: #04060c;
+  --line: rgba(150, 175, 230, .13);
+  --line2: rgba(150, 175, 230, .26);
+  --ink: #edf1fa;
+  --soft: #a9b4cc;
+  --dim: #6c7895;
+  --blue2: #86adff;
+  --red: #ff4a5c;
+  --sans: "IBM Plex Sans Arabic", "Segoe UI", Tahoma, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box }
+html, body { height: 100% }
+body {
+  margin: 0; color: var(--ink); font: 400 16px/1.9 var(--sans); -webkit-font-smoothing: antialiased;
+  background: radial-gradient(ellipse 120% 70% at 50% 100%, #12193a 0%, var(--bg) 62%) fixed var(--bg);
+  display: grid; grid-template-rows: auto 1fr auto; overflow-x: hidden;
+}
+a { color: inherit }
+:focus-visible { outline: 2px solid var(--blue2); outline-offset: 3px; border-radius: 6px }
+.mono { font-family: var(--mono); letter-spacing: .16em; text-transform: uppercase; font-size: 11.5px; color: var(--dim) }
+
+.stars { position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, #fff8, transparent), radial-gradient(1px 1px at 27% 42%, #fff6, transparent),
+    radial-gradient(1px 1px at 44% 12%, #fff9, transparent), radial-gradient(1px 1px at 63% 30%, #fff5, transparent),
+    radial-gradient(1px 1px at 78% 9%, #fff8, transparent),  radial-gradient(1px 1px at 88% 38%, #fff6, transparent),
+    radial-gradient(1.5px 1.5px at 35% 26%, #fffa, transparent), radial-gradient(1.5px 1.5px at 71% 20%, #fffa, transparent),
+    radial-gradient(1px 1px at 6% 50%, #fff5, transparent),  radial-gradient(1px 1px at 55% 48%, #fff4, transparent) }
+.dunes { position: fixed; inset: auto 0 0 0; height: 34vh; z-index: -1; pointer-events: none; width: 100%; display: block }
+
+header { display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  padding: 22px max(16px, env(safe-area-inset-left, 0px)); width: min(1180px, 100%); margin-inline: auto }
+.brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; font: 500 14px/1 var(--mono); letter-spacing: .3em }
+.brand img { width: 22px; filter: invert(1) }
+
+main { display: grid; place-items: center; text-align: center; padding: 24px 16px 18vh }
+.core { width: 14px; height: 14px; border-radius: 50%; background: var(--red); margin: 0 auto 28px;
+  box-shadow: 0 0 18px 4px rgba(255, 74, 92, .55), 0 0 60px 18px rgba(255, 74, 92, .18); animation: pulse 3.2s ease-in-out infinite }
+@keyframes pulse { 50% { box-shadow: 0 0 22px 6px rgba(255, 74, 92, .7), 0 0 80px 26px rgba(255, 74, 92, .24) } }
+@media (prefers-reduced-motion: reduce) { .core { animation: none } }
+h1 { margin: 0 0 6px; font: 300 clamp(64px, 16vw, 132px)/1 var(--mono); letter-spacing: .08em; color: var(--ink) }
+.lead { margin: 18px 0 4px; font-size: clamp(18px, 4.4vw, 22px); font-weight: 500 }
+.en { margin: 0 0 30px; color: var(--soft); font-size: 15px }
+.actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px }
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 10px 22px; border-radius: 999px;
+  border: 1px solid var(--line2); text-decoration: none; font-weight: 500; background: rgba(10, 14, 26, .58);
+  transition: border-color .2s ease, background-color .2s ease }
+.btn:hover { border-color: var(--blue2); background: rgba(59, 120, 255, .12) }
+.btn.primary { background: var(--ink); color: var(--bg); border-color: var(--ink) }
+.btn.primary:hover { background: #fff }
+
+footer { padding: 18px 16px 26px; text-align: center }
+</style>
+</head>
+<body>
+<div class="stars" aria-hidden="true"></div>
+<svg class="dunes" viewBox="0 0 1440 300" preserveAspectRatio="none" aria-hidden="true">
+  <path d="M0 210 C 220 150 380 170 560 200 S 900 140 1080 170 S 1320 200 1440 160 V300 H0Z" fill="#0a0f22"/>
+  <path d="M0 250 C 260 210 420 240 640 250 S 1000 200 1200 230 S 1380 250 1440 240 V300 H0Z" fill="#070a16"/>
+</svg>
+
+<header>
+  <a class="brand" href="/" aria-label="Vigil"><img src="/assets/vigil-mark.svg" alt="">VIGIL</a>
+  <span class="mono">Studio · Riyadh</span>
+</header>
+
+<main>
+  <div>
+    <div class="core" aria-hidden="true"></div>
+    <h1>404</h1>
+    <p class="lead">ضعت في الصحراء؟ هذي الصفحة مو موجودة.</p>
+    <p class="en" lang="en" dir="ltr">This page doesn't exist. Let's get you back on the trail.</p>
+    <div class="actions">
+      <a class="btn primary" href="/">الرئيسية</a>
+      <a class="btn" href="/en.html" lang="en">English site</a>
+      <a class="btn" href="https://wa.me/966501444443" target="_blank" rel="noopener">تواصل واتساب</a>
+    </div>
+  </div>
+</main>
+
+<footer class="mono" dir="ltr">© 2026 Vigil</footer>
+</body>
+</html>
