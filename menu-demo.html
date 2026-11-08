@@ -3,54 +3,54 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>بيت الدلة · منيو</title>
-<meta name="description" content="مثال منيو رقمي من Vigil لكافيه بيت الدلة.">
+<title>سَمْرة · منيو</title>
+<meta name="description" content="مثال منيو رقمي من Vigil لكافيه سَمْرة.">
 <link rel="icon" href="assets/vigil-mark.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@500;700;900&family=Reem+Kufi:wght@600;700&family=VT323&display=swap">
 <style>
-/* Sample digital (QR) menu Vigil makes for cafés. Its own café identity (warm coffee + saffron), phone-first, sticky category tabs, tap a dish for details, add to a small order you can send by WhatsApp. */
-:root { --bg: #f6efe4; --card: #fffaf2; --ink: #2a1a10; --muted: #7a6656; --line: #e4d6c3; --coffee: #5b3418; --saffron: #d98a1c; --cardamom: #4f6b3a;
+/* Sample digital (QR) menu Vigil makes for cafés. Its own café identity (desert teal + sand + terracotta), phone-first, sticky category tabs, tap a dish for details, add to a small order you can send by WhatsApp. */
+:root { --bg: #f3ede3; --card: #fffdf8; --ink: #14272a; --muted: #5f6f6c; --line: #dfd6c6; --coffee: #1f4a4c; --saffron: #c8643b; --cardamom: #4f6b3a;
   --head: "Reem Kufi", "Noto Kufi Arabic", Tahoma, sans-serif; --body: "Noto Kufi Arabic", "Segoe UI", Tahoma, sans-serif; color-scheme: light }
 * { box-sizing: border-box }
 [hidden] { display: none !important }
 body { margin: 0; background: var(--bg); color: var(--ink); font: 500 15px/1.8 var(--body); -webkit-tap-highlight-color: transparent }
 .wrap { max-width: 560px; margin-inline: auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)) }
-header { background: var(--coffee); color: #fbefdc; padding-block: 26px 22px; text-align: center; position: relative; overflow: hidden }
+header { background: var(--coffee); color: #f3ede3; padding-block: 26px 22px; text-align: center; position: relative; overflow: hidden }
 header::after { content: ""; position: absolute; inset: auto 0 0; height: 10px; background: repeating-linear-gradient(90deg, var(--saffron) 0 10px, transparent 10px 20px) }
 .logo { width: 64px; height: 64px; margin: 0 auto 8px; display: grid; place-items: center; border: 2px solid var(--saffron); border-radius: 50%; font: 700 30px/1 var(--head); color: var(--saffron) }
 h1 { margin: 0; font: 700 30px/1.3 var(--head) }
-header p { margin: 4px 0 0; color: #d9c3a3; font-size: 13px }
+header p { margin: 4px 0 0; color: #b9cfcb; font-size: 13px }
 .open { display: inline-flex; gap: 6px; align-items: center; margin-top: 10px; font-size: 12px; background: rgba(255,255,255,.1); padding: 4px 12px; border-radius: 999px }
 .open i { width: 7px; height: 7px; border-radius: 50%; background: #7fd36b }
 .tabs { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); border-bottom: 1px solid var(--line) }
 .tabs .wrap { display: flex; gap: 8px; overflow-x: auto; padding-block: 12px; scrollbar-width: none }
 .tabs .wrap::-webkit-scrollbar { display: none }
 .tabs button { all: unset; cursor: pointer; flex: none; padding: 7px 14px; border-radius: 999px; font-weight: 700; font-size: 14px; color: var(--muted); border: 1.5px solid var(--line) }
-.tabs button[aria-pressed="true"] { background: var(--coffee); color: #fbefdc; border-color: var(--coffee) }
+.tabs button[aria-pressed="true"] { background: var(--coffee); color: #f3ede3; border-color: var(--coffee) }
 .tabs button:focus-visible { outline: 2px solid var(--saffron); outline-offset: 2px }
 section { padding-top: 22px }
 section h2 { font: 700 20px/1.4 var(--head); margin: 0 0 10px; color: var(--coffee) }
 .item { all: unset; cursor: pointer; box-sizing: border-box; width: 100%; display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; gap: 14px; align-items: center; padding: 12px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; margin-bottom: 10px }
 .item:focus-visible { outline: 2px solid var(--saffron) }
-.item canvas { width: 64px; height: 64px; image-rendering: pixelated; background: #f3e6d2; border-radius: 10px }
+.item canvas { width: 64px; height: 64px; image-rendering: pixelated; background: #e9e2d4; border-radius: 10px }
 .item b { display: block; font-size: 16px; line-height: 1.5 }
 .item small { display: block; color: var(--muted); font-size: 12.5px; line-height: 1.6 }
 .price { font: 400 24px/1 "VT323", monospace; color: var(--coffee); white-space: nowrap }
 .price span { font: 600 11px/1 var(--body); color: var(--muted) }
 .tag { display: inline-block; font-size: 11px; font-weight: 700; color: var(--cardamom); background: #e7efdc; padding: 0 8px; border-radius: 999px; margin-top: 4px }
-.sheet { position: fixed; inset: 0; z-index: 20; background: rgba(42,26,16,.45); display: grid; align-items: end }
+.sheet { position: fixed; inset: 0; z-index: 20; background: rgba(20,39,42,.45); display: grid; align-items: end }
 .sheet .in { background: var(--card); border-radius: 20px 20px 0 0; padding: 22px max(18px, env(safe-area-inset-right, 0px)) calc(20px + env(safe-area-inset-bottom, 0px)) max(18px, env(safe-area-inset-left, 0px)); max-width: 560px; width: 100%; margin-inline: auto; animation: up .25s ease }
 @keyframes up { from { transform: translateY(40px); opacity: 0 } }
-.sheet canvas { width: 120px; height: 120px; image-rendering: pixelated; background: #f3e6d2; border-radius: 16px; display: block; margin: 0 auto 10px }
+.sheet canvas { width: 120px; height: 120px; image-rendering: pixelated; background: #e9e2d4; border-radius: 16px; display: block; margin: 0 auto 10px }
 .sheet h3 { margin: 0; text-align: center; font: 700 22px/1.4 var(--head) }
 .sheet p { margin: 6px 0 0; text-align: center; color: var(--muted) }
 .qty { display: flex; justify-content: center; align-items: center; gap: 18px; margin-top: 16px }
 .qty button { all: unset; cursor: pointer; width: 40px; height: 40px; border-radius: 50%; border: 1.5px solid var(--line); display: grid; place-items: center; font-size: 22px }
 .qty b { font: 400 30px/1 "VT323", monospace; min-width: 30px; text-align: center }
-.add { all: unset; cursor: pointer; display: block; text-align: center; margin-top: 16px; padding: 14px; border-radius: 14px; background: var(--coffee); color: #fbefdc; font-weight: 700 }
-.cart { position: fixed; z-index: 15; left: 0; right: 0; bottom: 0; background: var(--coffee); color: #fbefdc; padding: 12px max(16px, env(safe-area-inset-right, 0px)) calc(12px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)) }
+.add { all: unset; cursor: pointer; display: block; text-align: center; margin-top: 16px; padding: 14px; border-radius: 14px; background: var(--coffee); color: #f3ede3; font-weight: 700 }
+.cart { position: fixed; z-index: 15; left: 0; right: 0; bottom: 0; background: var(--coffee); color: #f3ede3; padding: 12px max(16px, env(safe-area-inset-right, 0px)) calc(12px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)) }
 .cart .wrap { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 0 }
 .cart a { color: var(--coffee); background: var(--saffron); text-decoration: none; font-weight: 700; padding: 10px 14px; border-radius: 12px; font-size: 14px }
 footer { text-align: center; padding: 30px 16px 110px; color: var(--muted); font-size: 12px }
@@ -59,9 +59,9 @@ footer a { color: var(--coffee); font-weight: 700 }
 </head>
 <body>
 <header>
-  <div class="logo">د</div>
-  <h1>بيت الدلة</h1>
-  <p>قهوة سعودية ومختصة · الملقا، الرياض</p>
+  <div class="logo">س</div>
+  <h1>سَمْرة</h1>
+  <p>قهوة مختصة وحلا محلي · حطين، الرياض</p>
   <span class="open"><i></i>مفتوح الحين · لين ٢ الفجر</span>
 </header>
 <nav class="tabs" aria-label="أقسام المنيو"><div class="wrap" id="tabs"></div></nav>
@@ -88,10 +88,10 @@ const SPR = {
 };
 const draw = (cv, n) => { const rows = SPR[n], g = cv.getContext('2d'); g.clearRect(0, 0, 12, 12); rows.forEach((r, y) => [...r].forEach((ch, x) => { if (C[ch]) { g.fillStyle = C[ch]; g.fillRect(x, y, 1, 1); } })); };
 const MENU = [
-  ['القهوة السعودية', [['dallah', 'دلة قهوة سعودية', 'هيل وزعفران، تكفي ٤ أشخاص ومعها تمر', 35, 'الأكثر طلبًا'], ['cup', 'فنجال قهوة', 'قهوة سعودية بالهيل', 8], ['dates', 'تمر سكري', 'صحن تمر سكري فاخر', 12]]],
-  ['القهوة المختصة', [['cup', 'V60', 'بن إثيوبي، نكهات توت وزهر', 22, 'جديد'], ['latte', 'لاتيه', 'إسبريسو مع حليب مبخّر', 19], ['latte', 'سبانش لاتيه', 'حليب مكثّف وقرفة', 21], ['iced', 'آيس لاتيه', 'بارد ومنعش', 21]]],
-  ['شاي', [['tea', 'شاي أخضر بالنعناع', 'نعناع مدينة طازج', 14], ['tea', 'شاي كرك', 'هيل وزعفران وحليب', 12]]],
-  ['حلا', [['cake', 'كيكة الزعفران', 'إسفنجية بكريمة الزعفران', 24, 'الأكثر طلبًا'], ['crois', 'كرواسون زعتر', 'زعتر وجبن', 16], ['cake', 'تشيز كيك تمر', 'بصوص تمر وكراميل', 26]]]
+  ['المختصة', [['cup', 'V60 كولومبي', 'نكهات كراميل وبرتقال', 23, 'الأكثر طلبًا'], ['latte', 'كورتادو', 'إسبريسو وحليب بالتساوي', 17], ['latte', 'فلات وايت', 'حليب ناعم وشوت مزدوج', 19]]],
+  ['البارد', [['iced', 'كولد برو', 'منقوع ١٨ ساعة', 20, 'جديد'], ['iced', 'آيس سبانش', 'حليب مكثّف وهيل', 21], ['iced', 'تونك إسبريسو', 'إسبريسو مع تونك وليمون', 22]]],
+  ['قهوة سعودية وشاي', [['dallah', 'دلة سعودية', 'هيل وزعفران، تكفي ٣ ومعها تمر', 32], ['dates', 'تمر خلاص', 'صحن تمر خلاص القصيم', 11], ['tea', 'شاي بالنعناع', 'نعناع طازج', 13]]],
+  ['حلا', [['cake', 'كيكة الدخن', 'دخن وعسل سدر', 25, 'الأكثر طلبًا'], ['crois', 'كرواسون لوز', 'زبدة ولوز محمّص', 17], ['cake', 'تشيز كيك ورد', 'ورد طائفي وفستق', 27]]]
 ];
 const tabs = document.getElementById('tabs'), menu = document.getElementById('menu'), items = [];
 MENU.forEach(([cat, list], ci) => {
@@ -117,7 +117,7 @@ addEventListener('keydown', e => { if (e.key === 'Escape') sheet.hidden = true; 
 addBtn.onclick = () => { cart[cur] = (cart[cur] || 0) + q; sheet.hidden = true; renderCart(); };
 const renderCart = () => { const keys = Object.keys(cart); const n = keys.reduce((s, k) => s + cart[k], 0), total = keys.reduce((s, k) => s + cart[k] * items[k].price, 0);
   document.getElementById('cart').hidden = !n; document.getElementById('cartText').textContent = n + ' أصناف · ' + total + ' ر.س';
-  const msg = 'طلب من منيو بيت الدلة:\n' + keys.map(k => '• ' + items[k].name + ' × ' + cart[k]).join('\n') + '\nالمجموع: ' + total + ' ر.س';
+  const msg = 'طلب من منيو سَمْرة:\n' + keys.map(k => '• ' + items[k].name + ' × ' + cart[k]).join('\n') + '\nالمجموع: ' + total + ' ر.س';
   document.getElementById('cartGo').href = 'https://wa.me/966501444443?text=' + encodeURIComponent(msg); };
 </script>
 </body>
